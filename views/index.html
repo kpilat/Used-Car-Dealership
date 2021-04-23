@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;800;900&display=swap"
+          rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+<!--    <link href="/docs/5.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">-->
+    <link href="../public/css/styles.css" rel="stylesheet"/>
+    <title>Node Cars</title>
+</head>
+<body>
+<!--    NAVBAR-->
+
+<header class="p-3 bg-dark text-white">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+
+            <div class="logo-container">
+                <a href="/" class="d-flex align-items-center my-2 my-lg-0 text-white text-decoration-none">
+                    <i class="fas fa-car car-icon"></i>
+                    <h1 class="logo-title">NodeCars</h1>
+                </a>
+            </div>
+
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                <li><a href="#" class="nav-link px-2 text-secondary">Domov</a></li>
+                <li><a href="#" class="nav-link px-2 text-white">Fórum</a></li>
+            </ul>
+
+            <div class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 text-center">
+                <button type="button" class="btn btn-outline-light me-2" onClick="document.getElementById('search-filter').scrollIntoView();">
+                    <i class="fas fa-search"></i>
+                    Prejsť na vyhľadávanie
+                </button>
+            </div>
+
+            <div class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 text-center">
+                <button type="button" class="btn btn-warning">
+                    <i class="fas fa-plus"></i>
+                    Pridať inzerát
+                </button>
+            </div>
+
+            <div class="text-end">
+                <div class="flex-shrink-0 dropdown">
+                    <a href="#" class="d-block link-light text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+                    </a>
+                    <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
+                        <li><a class="dropdown-item" href="#">New project...</a></li>
+                        <li><a class="dropdown-item" href="#">Settings</a></li>
+                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Sign out</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<!--Recommended Ads-->
+
+<section id="recommended-ads">
+
+    <div id="recommended-ads-carousel" class="carousel slide" data-bs-ride="carousel" data-bs-ride="3000">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <h2 class="h2-font recommended-text">Našli sme inzerát, ktorý by vás mohol zaujímať.</h2>
+                <img class="recommended-image" alt="dog-profile" src="../public/css/airplane.png">
+            </div>
+            <div class="carousel-item">
+                <h2 class="h2-font recommended-text">Našli sme inzerát, ktorý by vás mohol zaujímať.</h2>
+                <img class="recommended-image" src="../public/css/airplane.png" alt="lady-profile">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#recommended-ads-carousel"  data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#recommended-ads-carousel"  data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</section>
+
+
+
+<!--SEARCH FILTER-->
+
+<section id="search-filter">
+    <div class="container">
+        <div class="row col-lg-12 col-md-12 form-filter-title-container">
+            <h2 class="h2-font">Vyberte si prosím z nižšie uvedených kritérií</h2>
+        </div>
+        <div class="row col-lg-12 col-md-12">
+            <form class="row g-3 form-filter">
+                <div class="col-md-12">
+                    <select class="form-select" required="">
+                        <option value="">Značka</option>
+                        <option>United States</option>
+                    </select>
+                </div>
+                <div class="col-md-12">
+                    <select class="form-select" required="">
+                        <option value="">Model</option>
+                        <option>United States</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <select class="form-select" required="">
+                        <option value="">Rok výroby od</option>
+                        <option>United States</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <select class="form-select" required="">
+                        <option value="">Rok výroby do</option>
+                        <option>United States</option>
+                    </select>
+                </div>
+                <div class="col-md-12">
+                    <select class="form-select" required="">
+                        <option value="">Typ paliva</option>
+                        <option>United States</option>
+                    </select>
+                </div>
+                <div class="col-6">
+                    <input type="number" class="form-control" placeholder="Najazdené km od">
+                </div>
+                <div class="col-6">
+                    <input type="number" class="form-control" placeholder="Najazdené km do">
+                </div>
+                <div class="col-md-12">
+                    <select class="form-select" required="">
+                        <option value="">Typ karosérie</option>
+                        <option>United States</option>
+                    </select>
+                </div>
+                <div class="col-6">
+                    <input type="number" class="form-control" placeholder="Výkon od (hp)">
+                </div>
+                <div class="col-6">
+                    <input type="number" class="form-control" placeholder="Výkon do (hp)">
+                </div>
+                <div class="col-6">
+                    <input type="number" class="form-control" placeholder="Cena od">
+                </div>
+                <div class="col-6">
+                    <input type="number" class="form-control" placeholder="Cena do">
+                </div>
+                <div class="col-12 search-btn">
+                    <button type="button" class="btn btn-lg btn-dark"><i class="fas fa-search" style="padding-right: 8px"></i>Zobraziť výsledky</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</section>
+
+<!--Footer-->
+
+<footer class="bg-dark text-white">
+    <div class="container text-center">
+        <i class="fab fa-twitter footer-icon"></i>
+        <i class="fab fa-facebook-f footer-icon"></i>
+        <i class="fab fa-instagram footer-icon"></i>
+        <i class="fas fa-envelope footer-icon"></i>
+        <p class="footer-copyright">© Copyright 2021 NodeCars</p>
+    </div>
+</footer>
+
+
+<script src="https://kit.fontawesome.com/c013318e15.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+</body>
+</html>
