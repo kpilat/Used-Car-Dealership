@@ -4,10 +4,10 @@ const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const mongoose = require("mongoose");
 const app = express();
-const rawData = require("/Users/kristianpilat/Library/Mobile Documents/com~apple~CloudDocs/School/2nd grade/TW/UsedCarDealership/Cars.json");
+const outputModifier = require("./scripts/outputModifier");
+
 
 // Uses
-
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
@@ -47,15 +47,23 @@ const Parameter = mongoose.model("Parameter", parametersSchema);
 
 
 
-
-
 app.get('/', function(req, res) {
 
-
     BrandAndModel.find({},{brand: 1, models: 1, _id: 0}, function(err, foundItems){
-
         if(!err){
-            res.render('home', {brandsAndModels: JSON.stringify(foundItems)});
+            Parameter.find({}, {vehicleType: 1, gearbox: 1, fuelType: 1, _id: 0}, function(err2, foundParams){
+                if(!err2){
+                    res.render('home', {
+                        brandsAndModels: JSON.stringify(foundItems),
+                        vehicleType: foundParams[0].vehicleType,
+                        gearbox: foundParams[0].gearbox,
+                        fuelType: foundParams[0].fuelType,
+                        years: outputModifier.fillYear()
+                    });
+                } else {
+                    console.log(err);
+                }
+            })
         } else {
             console.log(err);
         }
@@ -65,8 +73,8 @@ app.get('/', function(req, res) {
 
 app.post('/',function(req, res){
 
-    selectedBrand.push(req.body.listName.split(' ').join(''));
-    res.redirect("/");
+    res.send(req.body.listName);
+    //res.redirect("/");
 })
 
 app.get('/results', function(req, res) {

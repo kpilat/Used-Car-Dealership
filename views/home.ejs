@@ -23,7 +23,7 @@
                         <option>Značka</option>
                     </select>
                     <input type="hidden" name="listName" id="brandInput" value="">
-                    <input type="hidden" name="listName" id="brandOutput" value="<%= brandsAndModels %>">
+                    <input type="hidden" id="brandOutput" value="<%= brandsAndModels %>">
                 </div>
                 <div class="col-md-12">
                     <select class="form-select" id="selectedModel">
@@ -31,45 +31,65 @@
                     </select>
                 </div>
                 <div class="col-md-6">
-                    <select class="form-select">
-                        <option value="">Rok výroby od</option>
+                    <select class="form-select year-own" id="selectedYearFrom">
+                        <option value="">Rok výroby do</option>
+                        <% years.forEach(function(item){ %>
+                            <option> <%= item %> </option>
+                        <% }) %>
                     </select>
                 </div>
                 <div class="col-md-6">
-                    <select class="form-select">
+                    <select class="form-select year-own" id="selectedYearTo">
                         <option value="">Rok výroby do</option>
+                        <% years.forEach(function(item){ %>
+                            <option> <%= item %> </option>
+                        <% }) %>
                     </select>
                 </div>
                 <div class="col-md-12">
-                    <select class="form-select">
+                    <select class="form-select" id="selectFuel">
                         <option value="">Typ paliva</option>
+                        <% fuelType.forEach(function(item){ %>
+                            <option> <%= item %> </option>
+                        <% }) %>
                     </select>
                 </div>
                 <div class="col-6">
-                    <input type="number" class="form-control" placeholder="Najazdené km od">
+                    <input type="number" class="form-control" placeholder="Najazdené km od" id="selectedKmFrom">
                 </div>
                 <div class="col-6">
-                    <input type="number" class="form-control" placeholder="Najazdené km do">
+                    <input type="number" class="form-control" placeholder="Najazdené km do" id="selectedKmTo">
                 </div>
                 <div class="col-md-12">
-                    <select class="form-select">
+                    <select class="form-select" id="selectedBodyType">
                         <option value="">Typ karosérie</option>
+                        <% vehicleType.forEach(function(item){ %>
+                            <option> <%= item %> </option>
+                        <% }) %>
+                    </select>
+                </div>
+                <div class="col-md-12">
+                    <select class="form-select" id="selectedGearbox">
+                        <option value="">Prevodovka</option>
+                        <% gearbox.forEach(function(item){ %>
+                            <option> <%= item %> </option>
+                        <% }) %>
                     </select>
                 </div>
                 <div class="col-6">
-                    <input type="number" class="form-control" placeholder="Výkon od (hp)">
+                    <input type="number" class="form-control" placeholder="Výkon od (hp)" id="powerFrom">
                 </div>
                 <div class="col-6">
-                    <input type="number" class="form-control" placeholder="Výkon do (hp)">
+                    <input type="number" class="form-control" placeholder="Výkon do (hp)" id="powerTo">
                 </div>
                 <div class="col-6">
-                    <input type="number" class="form-control" placeholder="Cena od">
+                    <input type="number" class="form-control" placeholder="Cena od" id="PriceFrom">
                 </div>
                 <div class="col-6">
-                    <input type="number" class="form-control" placeholder="Cena do">
+                    <input type="number" class="form-control" placeholder="Cena do" id="PriceTo">
                 </div>
                 <div class="col-12 search-btn">
-                    <button type="submit" class="btn btn-lg btn-dark"><i class="fas fa-search" style="padding-right: 8px"></i>Zobraziť výsledky</button>
+                    <button type="submit" class="btn btn-lg btn-dark" onclick="gatherValues()"><i class="fas fa-search" style="padding-right: 8px"></i>Zobraziť výsledky</button>
                 </div>
 
             </form>

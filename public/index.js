@@ -5,6 +5,8 @@ function getSelectValue(){
 }
 
 $(document).ready(function(){
+
+
     data = JSON.parse($("#brandOutput").val());
 
     let brandsToDisplay = [];
@@ -67,4 +69,9 @@ function prepareToSend(input){
     output = input.split(' ').join('_');
     output = output.charAt(0).toLowerCase() + output.slice(1);
     return output;
+}
+
+function gatherValues(){
+    // $("#brandInput").val($( "#selectedBrand option:selected" ).text());
+    $("#brandInput").val($( "#selectedBrand option:selected" ).text());
 }
