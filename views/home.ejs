@@ -20,9 +20,9 @@
                 <div class="col-md-12">
 
                     <select name="selectedBrand" class="form-select" id="selectedBrand" required="" onchange="getModel()">
-                        <option>Značka</option>
+                        <option value="">Značka</option>
                     </select>
-                    <input type="hidden" name="listName" id="brandInput" value="">
+                    <input type="hidden" name="brandInput" id="brandInput" value="">
                     <input type="hidden" id="brandOutput" value="<%= brandsAndModels %>">
                 </div>
                 <div class="col-md-12">
@@ -47,7 +47,7 @@
                     </select>
                 </div>
                 <div class="col-md-12">
-                    <select class="form-select" id="selectFuel">
+                    <select class="form-select" id="selectedFuel">
                         <option value="">Typ paliva</option>
                         <% fuelType.forEach(function(item){ %>
                             <option> <%= item %> </option>
