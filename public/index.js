@@ -6,6 +6,7 @@ function getSelectValue(){
 
 $(document).ready(function(){
 
+    //changeBackgroundColor();
 
     data = JSON.parse($("#brandOutput").val());
 
@@ -114,3 +115,13 @@ function gatherValues(){
     console.log(toSend);
     $("#brandInput").val(JSON.stringify(toSend));
 }
+
+// function changeBackgroundColor(){
+//     console.log(window.location.pathname);
+//     if(window.location.pathname === "/results"){
+//         $("body").css("background-color", "#FCCA2D")
+//     } else {
+//         $("body").css("background-color", "#f9f9f9")
+//     }
+// }
+

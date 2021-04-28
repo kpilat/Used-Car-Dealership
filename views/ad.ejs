@@ -1,0 +1,84 @@
+<%- include('partials/header'); -%>
+
+
+<div class="container ad-container">
+    <div class="container row">
+        <div class="col-md-7">
+            <img src="http://via.placeholder.com/640x360" alt="image-of-car">
+        </div>
+
+        <div class="col-md-5 text-start">
+            <div class="container row row-container">
+                <h1 class="h1-font"> <%= foundCar.brand + " " + foundCar.model %> </h1>
+            </div>
+            <div class="container row text-center row-container">
+                <div class="row mb-1 specific-ad-icons">
+                    <div class="col-md-2 col-sm-12 text-center icon-font">
+                        <p class="mb-0 ">
+                            <i class="fas fa-road"></i>
+                        </p>
+                    </div>
+                    <div class="col-md-2 col-sm-12  text-center icon-font">
+                        <p class="mb-0 ">
+                            <i class="far fa-calendar-alt"></i>
+                        </p>
+                    </div>
+                    <div class="col-md-2 col-sm-12  text-center icon-font">
+                        <p class="mb-1">
+                            <i class="fas fa-tachometer-alt"></i>
+                        </p>
+                    </div>
+                    <div class="col-md-2 col-sm-12  text-center icon-font">
+                        <p class="mb-0 ">
+                            <i class="fas fa-cogs"></i>
+                        </p>
+                    </div>
+                    <div class="col-md-2 col-sm-12  text-center icon-font">
+                        <p class="mb-0 ">
+                            <i class="fas fa-gas-pump"></i>
+                        </p>
+                    </div>
+                </div>
+
+
+
+                <div class="row mb-1 icon-description">
+                    <div class="col-md-2 col-sm-12 text-center">
+                        <p class="mb-0 icon-description-font">
+                            <%= foundCar.kilometer %>
+                        </p>
+                    </div>
+                    <div class="col-md-2 col-sm-12  text-center">
+                        <p class="mb-0 icon-description-font">
+                            <%= foundCar.firstRegistration %>
+                        </p>
+                    </div>
+                    <div class="col-md-2 col-sm-12  text-center">
+                        <p class="mb-0 icon-description-font">
+                            <%= foundCar.powerPS %>HP
+                        </p>
+                    </div>
+                    <div class="col-md-2 col-sm-12  text-center">
+                        <p class="mb-0 icon-description-font">
+                            <%= foundCar.gearbox %>
+                        </p>
+                    </div>
+                    <div class="col-md-2  col-sm-12 text-center">
+                        <p class="mb-0 icon-description-font">
+                            <%= foundCar.fuelType %>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="container row row-container">
+                <h2 class="h2-font"> Popis: </h2>
+            </div>
+            <div class="container row row-container">
+                <p class="text-font"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<%- include('partials/footer'); -%>
