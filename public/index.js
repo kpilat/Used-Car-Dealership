@@ -73,14 +73,11 @@ function prepareToSend(input){
 }
 
 function gatherValues(){
-    // $("#brandInput").val($( "#selectedBrand option:selected" ).text());
-    //$("#brandInput").val($( "#selectedBrand option:selected" ).text());
+
     const ids = ["selectedBrand","selectedModel","selectedYearFrom","selectedYearTo","selectedFuel","selectedKmFrom",
         "selectedKmTo","selectedBodyType","selectedGearbox","powerFrom","powerTo","PriceFrom","PriceTo"];
     let sortedSearchParams = [];
 
-
-    //console.log("First: " + $("#" + ids[0]).children("option:selected").val());
     ids.forEach(function(id) {
         if($("#" + id).val() === "")
         console.log( id + ": " + $("#" + id).val());
@@ -97,19 +94,6 @@ function gatherValues(){
         }
 
     })
-
-    // const toSend = {
-    //     brand: prepareToSend(sortedSearchParams[0]),
-    //     model: prepareToSend(sortedSearchParams[1]),
-    //     firstRegistration: "{$gt :" + sortedSearchParams[2] + ", " + "$lt : " + sortedSearchParams[3] + "}",
-    //     fuelType: sortedSearchParams[4],
-    //     kilometer: "{$gt :" + sortedSearchParams[5] + ", " + "$lt : " + sortedSearchParams[6] + "}",
-    //     vehicleType: sortedSearchParams[7],
-    //     gearbox: sortedSearchParams[8],
-    //     powerPS: "{$gt :" + sortedSearchParams[9] + ", " + "$lt : " + sortedSearchParams[10] + "}",
-    //     price: {$gt : sortedSearchParams[11] ,  $lt : sortedSearchParams[12] }
-    // }
-
 
     const toSend = {
         brand: prepareToSend(sortedSearchParams[0]),

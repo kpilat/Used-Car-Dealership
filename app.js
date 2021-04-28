@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const mongoose = require("mongoose");
 const app = express();
-const outputModifier = require("./scripts/outputModifier");
+const paramModify = require("./scripts/paramModify");
 const queries = require("./scripts/queries")
 
 // Uses
@@ -38,7 +38,7 @@ app.get('/', function(req, res) {
                         vehicleType: foundParams[0].vehicleType,
                         gearbox: foundParams[0].gearbox,
                         fuelType: foundParams[0].fuelType,
-                        years: outputModifier.fillYear()
+                        years: paramModify.fillYear()
                     });
                 } else {
                     console.log(err);
@@ -54,34 +54,21 @@ app.get('/', function(req, res) {
 app.post('/',function(req, res){
 
     filterParams = req.body.brandInput;
-    console.log(filterParams);
     res.redirect("/results");
 })
 
 app.get('/results', function(req, res) {
 
-    const params = queries.PrepareForSearch(filterParams);
+    const conditions = queries.PrepareForSearch(filterParams);
 
-    //console.log("Search params: " + searchParams);
-
-
-    queries.Car.find({brand: params.brand, model: (params.model) ? params.model:/.*/}, {_id: 0, __v: 0}, function(err, foundCars){
+    queries.Car.find(conditions
+        , {_id: 0, __v: 0}, function(err, foundCars){
         if (err){
             console.log(err)
         } else {
-            console.log(foundCars);
-            res.send(params);
+            res.send(foundCars);
         }
     })
-
-    // queries.Car.find({brand: "audi", model: null}, {_id: 0, __v: 0}, function(err, foundCars){
-    //     if (err){
-    //         console.log(err)
-    //     } else {
-    //         console.log(foundCars);
-    //         res.send(searchParams);
-    //     }
-    // })
 })
 
 app.listen(3000, function() {
