@@ -1,4 +1,6 @@
 let data;
+const ids = ["selectedBrand","selectedModel","selectedYearFrom","selectedYearTo","selectedFuel","selectedKmFrom",
+    "selectedKmTo","selectedBodyType","selectedGearbox","powerFrom","powerTo","PriceFrom","PriceTo"];
 
 function getSelectValue(){
     $("#brandInput").val($( "#selectedBrand option:selected" ).text());
@@ -8,22 +10,40 @@ $(function(){
 
     //changeBackgroundColor();
 
-    data = JSON.parse($("#brandOutput").val());
+    const rawData = $("#brandOutput").val()
 
-    let brandsToDisplay = [];
+    DisplayFilter(rawData)
 
-    data.forEach(function(item){
-        brandsToDisplay.push(item.brand);
-    })
-
-    brandsToDisplay = prepareToDisplay(brandsToDisplay);
-
-    brandsToDisplay.forEach(function(item){
-        $("#selectedBrand").append("<option>" + item + "</option>");
-    });
 })
 
+function DisplayFilter(rawData){
+
+    if(rawData !== undefined){
+
+        rawData = rawData.split(';');
+
+        data = JSON.parse(rawData[0]);
+        let brandsToDisplay = [];
+        data.forEach(function(item){
+            brandsToDisplay.push(item.brand);
+        })
+
+        brandsToDisplay = prepareToDisplay(brandsToDisplay);
+
+        brandsToDisplay.forEach(function(item){
+            $("#selectedBrand").append("<option>" + item + "</option>");
+        });
+
+        if(rawData[1] !== ""){
+            RecoverFilterParams(JSON.parse(rawData[1]));
+        }
+    }
+
+}
+
+
 function getModel(){
+
     let brand = $("#selectedBrand option:selected").text();
     let models = [];
     let modelsToDisplay = [];
@@ -60,6 +80,16 @@ function prepareToDisplay(input){
     return output.sort();
 }
 
+function beautifyToDisplay(input){
+
+    if (typeof input === 'string') {
+        let tmp = input.split('_').join(' ');
+        return tmp.charAt(0).toUpperCase() + tmp.slice(1);
+    } else {
+        return input;
+    }
+}
+
 
 
 
@@ -75,8 +105,6 @@ function prepareToSend(input){
 
 function gatherValues(){
 
-    const ids = ["selectedBrand","selectedModel","selectedYearFrom","selectedYearTo","selectedFuel","selectedKmFrom",
-        "selectedKmTo","selectedBodyType","selectedGearbox","powerFrom","powerTo","PriceFrom","PriceTo"];
     let sortedSearchParams = [];
 
 
@@ -119,6 +147,31 @@ function ResultOptionsChange(){
     window.location.replace("/results?sort=" + sort + "&count=" + count);
 }
 
+function RecoverFilterParams(object){
+
+
+    object.brand = beautifyToDisplay(object.brand);
+    loopOptions("selectedBrand", object.brand);
+    getModel();
+    loopOptions("selectedModel", object.model)
+    loopOptions("selectedYearFrom", object.yearFrom);
+    loopOptions("selectedYearTo", object.yearTo);
+    loopOptions("selectedFuel", object.fuel);
+    loopOptions("selectedBodyType", object.vehicleType);
+    loopOptions("selectedGearbox", object.gearbox);
+
+    const ids = ["selectedBrand","selectedModel","selectedYearFrom","selectedYearTo","selectedFuel","selectedKmFrom",
+        "selectedKmTo","selectedBodyType","selectedGearbox","powerFrom","powerTo","PriceFrom","PriceTo"];
+
+    $("#selectedKmFrom").val(object.kmFrom);
+    $("#selectedKmTo").val(object.kmTo);
+    $("#powerFrom").val(object.powerFrom);
+    $("#powerTo").val(object.powerTo);
+    $("#PriceFrom").val(object.priceFrom);
+    $("#PriceTo").val(object.priceTo);
+
+}
+
 // function changeBackgroundColor(){
 //     console.log(window.location.pathname);
 //     if(window.location.pathname === "/results"){
@@ -127,4 +180,14 @@ function ResultOptionsChange(){
 //         $("body").css("background-color", "#f9f9f9")
 //     }
 // }
+
+function loopOptions(id, objectAtt){
+    if(objectAtt && id){
+        $("#" + id).children().each(function(){
+            if($(this).val() === objectAtt){
+                $(this).attr("selected", "selected");
+            }
+        });
+    }
+}
 

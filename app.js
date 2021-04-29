@@ -44,6 +44,7 @@ app.use(session({
 
 app.get('/', function(req, res) {
 
+
     queries.BrandAndModel.find({},{brand: 1, models: 1, _id: 0}, function(err, foundItems){
         if(!err){
             queries.Parameter.find({}, {vehicleType: 1, gearbox: 1, fuelType: 1, _id: 0}, function(err2, foundParams){
@@ -53,7 +54,8 @@ app.get('/', function(req, res) {
                         vehicleType: foundParams[0].vehicleType,
                         gearbox: foundParams[0].gearbox,
                         fuelType: foundParams[0].fuelType,
-                        years: paramModify.fillYear()
+                        years: paramModify.fillYear(),
+                        recover: (req.query.recover) ? req.session.filterParams : ""
                     });
                 } else {
                     console.log(err);
@@ -66,6 +68,13 @@ app.get('/', function(req, res) {
 
 });
 
+// app.get('/:recover', function(req, res) {
+//     if(req.params.recover === "1"){
+//         req.session.recover = req.params.recover;
+//         res.redirect("/");
+//     }
+// });
+
 app.get('/results', function(req, res) {
 
     if(req.query.sort && req.query.count)
@@ -74,7 +83,7 @@ app.get('/results', function(req, res) {
         req.session.count = req.query.count.split(' ').join('');
     }
 
-    const conditions = queries.PrepareForSearch(filterParams);
+    const conditions = queries.PrepareForSearch(req.session.filterParams);
     const resultsPerPage = parseInt(req.session.count);
     let sortBy = queries.SortBy(req.session.sort);
 
@@ -128,7 +137,8 @@ app.post('/',function(req, res){
         req.session.sort = req.query.sort;
         req.session.count = req.query.count;
     }
-    filterParams = req.body.brandInput;
+
+    req.session.filterParams = req.body.brandInput;
     res.redirect("/results");
 })
 
