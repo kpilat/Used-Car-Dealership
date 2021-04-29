@@ -4,15 +4,22 @@
     <div class="card-body row text-start">
         <div class="col-md-2">
             <label for="sort-option" class="form-label note-font">Zoradiť podľa...</label>
-            <select name="" id="sort-option" class="form-select results-option">
-                <option value=""></option>
+            <select name="" id="sort-option" class="form-select results-option" onChange="ResultOptionsChange()">
+                <% sort.forEach(function(item){ %>
+                    <option value=" <%= item.value %> "> <%= item.display %> </option>
+                <% }) %>
             </select>
         </div>
         <div class="col-md-2">
-            <label for="sort-option" class="form-label note-font">Počet výsledkov</label>
-            <select name="" id="sort-option" class="form-select results-option">
-                <option value=""></option>
+            <label for="count-option" class="form-label note-font">Počet výsledkov</label>
+            <select name="" id="count-option" class="form-select results-option" onChange="ResultOptionsChange()">
+                <% count.forEach(function(item){ %>
+                    <option> <%= item %> </option>
+                <% }) %>
             </select>
+        </div>
+        <div class="col-md-8 text-end">
+            <button type="button" class="btn btn-outline-dark modify-filter-btn button-font">Upraviť vyhľadávanie</button>
         </div>
     </div>
 </div>

@@ -150,8 +150,10 @@ footer i {
     padding: 0 18px;
 }
 
-.results-option {
-
+.modify-filter-btn {
+    background-color: #FCCA2D;
+    margin: 2.5% auto;
+    border-width: 2px;
 }
 
 .results-container {

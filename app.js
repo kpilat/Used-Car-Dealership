@@ -68,7 +68,17 @@ app.get('/', function(req, res) {
 
 app.get('/results', function(req, res) {
 
+    if(req.query.sort && req.query.count)
+    {
+        req.session.sort = req.query.sort.split(' ').join('');
+        req.session.count = req.query.count.split(' ').join('');
+    }
+
     const conditions = queries.PrepareForSearch(filterParams);
+    const resultsPerPage = parseInt(req.session.count);
+    let sortBy = queries.SortBy(req.session.sort);
+
+
 
     queries.Car.find(conditions
         , {__v: 0}, function(err, foundCars){
@@ -80,15 +90,19 @@ app.get('/results', function(req, res) {
             let len = foundCars.length - 1;
             foundCars.forEach(function(car){
                 fifteenCars.push(car);
-                if(fifteenCars.length === 15 || car === foundCars[len]){
+                if(fifteenCars.length === resultsPerPage || car === foundCars[len]){
                     sortedCars.push(fifteenCars);
                     fifteenCars = [];
                 }
             })
 
-            res.render('results', {carList: sortedCars[0]});
+            res.render('results', {
+                carList: sortedCars[0],
+                sort: paramModify.GetResultOptions("sort", req.session.sort),
+                count: paramModify.GetResultOptions("count", resultsPerPage)
+            });
         }
-    }).sort({price: 1});
+    }).sort(sortBy);
 });
 
 app.get('/results/ad:id', function(req, res) {
@@ -110,8 +124,11 @@ app.listen(3000, function() {
 
 app.post('/',function(req, res){
 
-    console.log(req.query.sort);
-    // filterParams = req.body.brandInput;
-    // res.redirect("/results");
+    if(!req.session.sort && !req.session.count){
+        req.session.sort = req.query.sort;
+        req.session.count = req.query.count;
+    }
+    filterParams = req.body.brandInput;
+    res.redirect("/results");
 })
 

@@ -71,4 +71,28 @@ function Clean(obj){
     return obj;
 }
 
-module.exports = {PrepareForSearch, Car, BrandAndModel, Parameter};
+function SortBy(input){
+    let output = "";
+    const diff = (diffMe, diffBy) => diffMe.split(diffBy).join('')
+
+    const sortBy = [
+        {
+            name: "pricea",
+            value: {price: 1}
+        },
+        {
+            name: "priced",
+            value: {price: -1}
+        }
+    ];
+
+    sortBy.forEach(function(item){
+        if(item.name === input){
+            output = item.value;
+        }
+    });
+
+    return output;
+}
+
+module.exports = {PrepareForSearch, Car, BrandAndModel, Parameter, SortBy};

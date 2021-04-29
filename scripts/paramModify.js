@@ -13,4 +13,31 @@ function getYear(){
     return date.getFullYear();
 }
 
-module.exports = {fillYear, getYear};
+function GetResultOptions(condition, fisrtElement){
+
+    if(condition === "sort"){
+
+        const sort = [{
+                display: "Ceny (najnižšej)",
+                value: "pricea"
+            },
+            {
+                display: "Ceny (najvyššej)",
+                value: "priced"
+            }
+        ]
+        sort.unshift(sort.splice(sort.findIndex(elt => elt.value === fisrtElement), 1)[0])
+        return sort;
+
+    } else if(condition === "count"){
+
+        const count = [10, 15, 20, 30];
+        count.unshift(count.splice(count.findIndex(elt => elt === fisrtElement), 1)[0])
+        return count;
+    }
+
+
+}
+
+
+module.exports = {fillYear, getYear, GetResultOptions};

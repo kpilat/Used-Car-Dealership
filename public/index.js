@@ -111,6 +111,14 @@ function gatherValues(){
     $("#brandInput").val(JSON.stringify(toSend));
 }
 
+function ResultOptionsChange(){
+    const sort = $("#sort-option").children("option:selected").val();
+    const count = $("#count-option").children("option:selected").text();
+
+
+    window.location.replace("/results?sort=" + sort + "&count=" + count);
+}
+
 // function changeBackgroundColor(){
 //     console.log(window.location.pathname);
 //     if(window.location.pathname === "/results"){
