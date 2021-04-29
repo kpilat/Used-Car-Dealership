@@ -45,7 +45,7 @@ body {
 }
 
 .note-font {
-    font-weight: 300;
+    font-weight: 400;
     font-size: 14px;
     color: black;
 }
@@ -144,9 +144,18 @@ footer i {
 
 /*Resulst*/
 
+.results-optionbar {
+    margin: 7rem 10% 0 10%;
+    background-color: #FCCA2D;
+    padding: 0 18px;
+}
+
+.results-option {
+
+}
 
 .results-container {
-    margin: 7rem 10% 0 10%;
+    margin: 2rem 10% 0 10%;
     background-color: #f9f9f9;
     padding-bottom: 25px;
     border-radius: 0.1%;

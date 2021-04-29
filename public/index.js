@@ -4,7 +4,7 @@ function getSelectValue(){
     $("#brandInput").val($( "#selectedBrand option:selected" ).text());
 }
 
-$(document).ready(function(){
+$(function(){
 
     //changeBackgroundColor();
 
@@ -79,10 +79,6 @@ function gatherValues(){
         "selectedKmTo","selectedBodyType","selectedGearbox","powerFrom","powerTo","PriceFrom","PriceTo"];
     let sortedSearchParams = [];
 
-    ids.forEach(function(id) {
-        if($("#" + id).val() === "")
-        console.log( id + ": " + $("#" + id).val());
-    })
 
     ids.forEach(function(id) {
 
@@ -112,7 +108,6 @@ function gatherValues(){
         priceTo: sortedSearchParams[12]
     }
 
-    console.log(toSend);
     $("#brandInput").val(JSON.stringify(toSend));
 }
 
