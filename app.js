@@ -3,6 +3,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const mongoose = require("mongoose");
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const app = express();
 const paramModify = require(__dirname + "/scripts/paramModify");
 const queries = require(__dirname + "/scripts/queries")
@@ -11,18 +13,30 @@ const queries = require(__dirname + "/scripts/queries")
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname + "/public"));
-mongoose.connect('mongodb://localhost/usedCarDealershipDB', {useNewUrlParser: true, useUnifiedTopology: true});
+
+const mongooseConnectOptions = {useNewUrlParser: true, useUnifiedTopology: true};
+const connection = mongoose.connect(process.env.MONGO_URL, mongooseConnectOptions);
 
 // Variables
 let selectedBrand = [];
 let filterParams;
 
+// Sessions
 
-// Database
+const sessionStore = MongoStore.create({
+    mongoUrl: process.env.MONGO_URL,
+    collection: "sessions"
+});
 
-
-
-
+app.use(session({
+    secret: process.env.MONGO_SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    store: sessionStore,
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24
+    }
+}));
 
 
 
@@ -96,7 +110,8 @@ app.listen(3000, function() {
 
 app.post('/',function(req, res){
 
-    filterParams = req.body.brandInput;
-    res.redirect("/results");
+    console.log(req.query.sort);
+    // filterParams = req.body.brandInput;
+    // res.redirect("/results");
 })
 
