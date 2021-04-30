@@ -1,11 +1,13 @@
 require('dotenv').config();
 const express = require("express");
+const bcrypt = require('bcrypt');
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const mongoose = require("mongoose");
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
 const passportLocalMongoose = require("passport-local-mongoose");
 const app = express();
 const paramModify = require(__dirname + "/scripts/paramModify");
@@ -44,15 +46,33 @@ app.use(passport.session());
 const userSchema = new mongoose.Schema({
     email: String,
     password: String,
-    googleId: String,
-    secret: String
+    username: String,
+    phone: String,
+    ads: Array
 });
 
 userSchema.plugin(passportLocalMongoose);
 
 const User = new mongoose.model("User", userSchema);
 
-passport.use(User.createStrategy());
+// passport.use(User.createStrategy());
+
+passport.use(new LocalStrategy(function (username, password, done) {
+    console.log("username: " + username);
+    console.log("password: " + password);
+    console.log("done: " + done);
+    User.findOne({ username: username }, function (err, user) {
+        if (err) return done(err);
+        if (!user) return done(null, false, { message: 'Incorrect username.' });
+
+        bcrypt.compare(password, user.password, function (err, res) {
+            if (err) return done(err);
+            if (res === false) return done(null, false, { message: 'Incorrect password.' });
+
+            return done(null, user);
+        });
+    });
+}));
 
 passport.serializeUser(function(user, done) {
     done(null, user.id);
@@ -65,6 +85,16 @@ passport.deserializeUser(function(id, done) {
 });
 
 
+
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated()) return next();
+    res.redirect('/login');
+}
+
+function isLoggedOut(req, res, next) {
+    if (!req.isAuthenticated()) return next();
+    res.redirect('/');
+}
 
 
 app.get('/', function(req, res) {
@@ -101,27 +131,40 @@ app.get('/register', function(req, res) {
     res.render("register");
 });
 
-app.get('/new-ad', function(req, res) {
+app.get('/create', function(req, res) {
     if (req.isAuthenticated()) {
-        res.render("new-ad");
+        res.render("create");
     } else {
         res.redirect("/login");
     }
 });
 
 
-app.post('/register', function(req, res){
+app.post('/register', async function(req, res){
 
-    User.register({username: req.body.username}, req.body.password, function(err, user){
-        if (err){
-            console.log(err);
-            res.redirect("/register");
-        } else {
-            passport.authenticate("local")(req, res, function(){
-                res.redirect("/");
-            })
-        }
-    })
+    const exists = await User.exists({ username: "admin" });
+
+    if (exists) {
+        res.redirect('/login');
+        return;
+    }
+
+    bcrypt.genSalt(10, function (err, salt) {
+        if (err) return next(err);
+        bcrypt.hash(req.body.password, salt, function (err, hash) {
+            if (err) return next(err);
+
+            const newUser = new User({
+                username: req.body.username,
+                password: hash
+            });
+
+            newUser.save();
+
+            res.redirect("/login");
+
+        });
+    });
 
 });
 
