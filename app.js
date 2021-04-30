@@ -57,13 +57,13 @@ const User = new mongoose.model("User", userSchema);
 
 // passport.use(User.createStrategy());
 
-passport.use(new LocalStrategy(function (username, password, done) {
-    console.log("username: " + username);
+passport.use(new LocalStrategy({usernameField: "email"},function (email, password, done) {
+    console.log("email: " + email);
     console.log("password: " + password);
     console.log("done: " + done);
-    User.findOne({ username: username }, function (err, user) {
+    User.findOne({ email: email }, function (err, user) {
         if (err) return done(err);
-        if (!user) return done(null, false, { message: 'Incorrect username.' });
+        if (!user) return done(null, false, { message: 'Incorrect email.' });
 
         bcrypt.compare(password, user.password, function (err, res) {
             if (err) return done(err);
@@ -127,6 +127,11 @@ app.get('/login', function(req, res) {
     res.render("login");
 });
 
+app.get('/logout', function(req, res){
+    req.logout();
+    res.redirect("/");
+})
+
 app.get('/register', function(req, res) {
     res.render("register");
 });
@@ -140,9 +145,9 @@ app.get('/create', function(req, res) {
 });
 
 
-app.post('/register', async function(req, res){
+app.post('/register', async function(req, res, next){
 
-    const exists = await User.exists({ username: "admin" });
+    const exists = await User.exists({ email: req.body.email });
 
     if (exists) {
         res.redirect('/login');
@@ -155,7 +160,7 @@ app.post('/register', async function(req, res){
             if (err) return next(err);
 
             const newUser = new User({
-                username: req.body.username,
+                email: req.body.email,
                 password: hash
             });
 
@@ -168,23 +173,18 @@ app.post('/register', async function(req, res){
 
 });
 
-app.post("/login", function(req, res){
+app.post("/login", function(req, res, next){
 
-    const user = new User({
-        username: req.body.username,
-        password: req.body.password
-    });
 
-    req.login(user, function(err){
-        if(err){
-            console.log(err);
-            res.redirect("/login");
-        } else {
-            passport.authenticate("local")(req, res, function(){
-                res.redirect("/");
-            })
-        }
-    })
+    passport.authenticate('local', function(err, user, info) {
+        console.log(info);
+        if (err) { return next(err); }
+        if (!user) { return res.redirect('/login'); }
+        req.logIn(user, function(err) {
+            if (err) { return next(err); }
+            return res.redirect('/');
+        });
+    })(req, res, next);
 });
 
 app.get('/results', function(req, res) {
