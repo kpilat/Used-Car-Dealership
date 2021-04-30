@@ -1,0 +1,56 @@
+<%- include('partials/header') %>
+
+<div class="container register-container">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <h1>Registrácia</h1>
+                    <!-- Makes POST request to /register route -->
+                    <form action="/register" method="POST" class="form-body">
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" class="form-control" name="username" >
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" name="email" >
+                        </div>
+                        <div class="form-group">
+                            <label for="tel">Phone number</label>
+                            <input type="tel" class="form-control" name="phone" >
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" name="password" >
+                        </div>
+
+                        <div class="container register-button-container">
+                        <div class="row register-button text-center">
+                            <div class="col-sm-12 register-type-button">
+                                <button type="submit" class="btn btn-outline-warning">Zaregistrovať sa</button>
+                            </div>
+                        </div>
+
+                        <div class="row register-button">
+                            <div class="col-sm-12 text-center">
+                                <div class="card social-block register-type-button">
+                                    <a class="btn btn-block btn-social btn-google" href="/auth/google" role="button">
+                                        <i class="fab fa-google"></i>
+                                        Zaregistrovať cez Google
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<%- include('partials/footer') %>

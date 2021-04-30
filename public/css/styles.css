@@ -127,13 +127,14 @@ body {
 /*Footer*/
 
 footer {
-    margin-top: 7rem;
-    padding: 3.5rem;
+    margin-top: 5%;
+    padding: 2.5%;
 }
 
 footer p{
     padding-top: 20px;
     font-size: 20px;
+    margin: 0;
 }
 
 footer i {
@@ -249,4 +250,38 @@ footer i {
 
 .row-container {
     padding-top: 20px;
+}
+
+
+/*Register*/
+
+.register-container {
+    margin: 10% auto;
+    width: 30%;
+}
+
+.register-container h1 {
+    text-align: center;
+}
+
+.form-body {
+    margin: 4% auto;
+    width: 80%;
+}
+
+.register-button-container {
+    margin: 5% auto 0;
+    width: 100%;
+    padding: 0 20px;
+}
+
+.register-type-button {
+    margin-top: 4%;
+}
+
+.register-type-button button{
+    width: 99%;
+    color: #f9f9f9;
+    border-color: #212629;
+    background-color: #212629
 }
