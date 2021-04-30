@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const passportLocalMongoose = require("passport-local-mongoose");
 
 const carSchema = new mongoose.Schema({
     price: Number,
@@ -23,8 +24,24 @@ const parametersSchema = new mongoose.Schema({
     fuelType: Array
 });
 
+const userSchema = new mongoose.Schema({
+    email: String,
+    password: String,
+    username: String,
+    phone: String,
+    ads: Array
+});
+
+userSchema.plugin(passportLocalMongoose);
+
 const Car = mongoose.model("Car", carSchema);
 const BrandAndModel = mongoose.model("BrandsAndModel", brandsAndModelsSchema);
 const Parameter = mongoose.model("Parameter", parametersSchema);
+const User = new mongoose.model("User", userSchema);
 
-module.exports = {Car, BrandAndModel, Parameter};
+module.exports = {Car, BrandAndModel, Parameter, User};
+
+
+
+
+
