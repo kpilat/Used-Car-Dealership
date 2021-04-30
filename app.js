@@ -105,10 +105,21 @@ app.get('/results', function(req, res) {
                 }
             })
 
+
+            const currentPage = parseInt((req.query.page) ? req.query.page : 1);
+
+            const pagination = {
+                disabledLeft: (currentPage === 1) ? "disabled" : "",
+                disabledRight: (currentPage === sortedCars.length) ? "disabled" : "",
+                currentPage: currentPage,
+                pageNumbers: paramModify.GetPageNumbers(currentPage, sortedCars.length)
+            }
+
             res.render('results', {
-                carList: sortedCars[0],
+                carList: sortedCars[currentPage - 1],
                 sort: paramModify.GetResultOptions("sort", req.session.sort),
-                count: paramModify.GetResultOptions("count", resultsPerPage)
+                count: paramModify.GetResultOptions("count", resultsPerPage),
+                pagination: pagination
             });
         }
     }).sort(sortBy);

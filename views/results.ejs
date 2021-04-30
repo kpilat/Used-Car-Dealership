@@ -4,7 +4,7 @@
     <div class="card-body row text-start">
         <div class="col-md-2">
             <label for="sort-option" class="form-label note-font">Zoradiť podľa...</label>
-            <select name="" id="sort-option" class="form-select results-option" onChange="ResultOptionsChange()">
+            <select name="" id="sort-option" class="form-select results-option" onChange="ResultOptionsChange('1')">
                 <% sort.forEach(function(item){ %>
                     <option value=" <%= item.value %> "> <%= item.display %> </option>
                 <% }) %>
@@ -12,7 +12,7 @@
         </div>
         <div class="col-md-2">
             <label for="count-option" class="form-label note-font">Počet výsledkov</label>
-            <select name="" id="count-option" class="form-select results-option" onChange="ResultOptionsChange()">
+            <select name="" id="count-option" class="form-select results-option" onChange="ResultOptionsChange('1')">
                 <% count.forEach(function(item){ %>
                     <option> <%= item %> </option>
                 <% }) %>
@@ -120,6 +120,32 @@
                 </div>
         </div>
     <% }) %>
+</div>
+
+<div class="card flex-md-row mb-4 box-shadow h-md-250 pagination-bar">
+    <div class="col-md-12">
+    <nav aria-label="Page navigation example" class="pagination-container">
+        <ul class="pagination justify-content-center">
+            <li class="page-item <%= pagination.disabledLeft %>">
+                <a class="page-link pagination-btn" onclick="ResultOptionsChange( <%= pagination.currentPage - 1 %> )" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <% pagination.pageNumbers.forEach(function(number){ %>
+
+                <li class="page-item"><a class="page-link pagination-btn <% if(number === pagination.currentPage){ %>
+                                                                                    <%= "pagination-btn-active" %>
+                                                                          <% } %>
+                    " onclick="ResultOptionsChange( <%= number %> )" href="#"> <%= number %> </a></li>
+            <% }) %>
+            <li class="page-item <%= pagination.disabledRight %>">
+                <a class="page-link pagination-btn" onclick="ResultOptionsChange( <%= pagination.currentPage + 1 %> )" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    </div>
 </div>
 
 <%- include('partials/footer'); -%>

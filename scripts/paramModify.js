@@ -40,4 +40,15 @@ function GetResultOptions(condition, fisrtElement){
 }
 
 
-module.exports = {fillYear, getYear, GetResultOptions};
+function GetPageNumbers(currentPage, maxLen){
+
+    let numbers = []
+    for(let i = currentPage - 2; i <= currentPage + 2; i++){
+        if(i > 0 && i <= maxLen){
+            numbers.push(i);
+        }
+    }
+    return numbers;
+}
+
+module.exports = {fillYear, getYear, GetResultOptions, GetPageNumbers};

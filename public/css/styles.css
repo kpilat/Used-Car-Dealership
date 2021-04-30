@@ -145,7 +145,7 @@ footer i {
 /*Resulst*/
 
 .results-optionbar {
-    margin: 7rem 10% 0 10%;
+    margin: 7% 10% 0 10%;
     background-color: #FCCA2D;
     padding: 0 18px;
 }
@@ -155,6 +155,34 @@ footer i {
     margin: 2.5% auto;
     border-width: 2px;
 }
+
+.pagination-bar {
+    margin: 4% 10% 0 10%;
+    background-color: #FCCA2D;
+    padding: 0 18px;
+}
+
+.pagination-container {
+    margin: 2% auto;
+}
+
+.pagination-btn {
+    color: #212629;
+    background-color: #f9f9f9;
+}
+
+.pagination-btn:hover {
+    color: #212629;
+    background-color: #FCCA2D;
+    border-color: #f9f9f9;
+}
+
+.pagination-btn-active {
+    color: #212629;
+    background-color: #FCCA2D;
+    border-color: #f9f9f9;
+}
+
 
 .results-container {
     margin: 2rem 10% 0 10%;

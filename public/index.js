@@ -139,12 +139,12 @@ function gatherValues(){
     $("#brandInput").val(JSON.stringify(toSend));
 }
 
-function ResultOptionsChange(){
+function ResultOptionsChange(pageNumber){
     const sort = $("#sort-option").children("option:selected").val();
     const count = $("#count-option").children("option:selected").text();
 
 
-    window.location.replace("/results?sort=" + sort + "&count=" + count);
+    window.location.replace("/results?sort=" + sort + "&count=" + count + "&page=" + pageNumber);
 }
 
 function RecoverFilterParams(object){
