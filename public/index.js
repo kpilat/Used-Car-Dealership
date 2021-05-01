@@ -103,7 +103,7 @@ function prepareToSend(input){
     }
 }
 
-function gatherValues(){
+function gatherValues(searchOrCreate){
 
     let sortedSearchParams = [];
 
@@ -120,24 +120,42 @@ function gatherValues(){
 
     })
 
-    const toSend = {
-        brand: prepareToSend(sortedSearchParams[0]),
-        model: prepareToSend(sortedSearchParams[1]),
-        yearFrom: sortedSearchParams[2],
-        yearTo: sortedSearchParams[3],
-        fuel: sortedSearchParams[4],
-        kmFrom: sortedSearchParams[5],
-        kmTo: sortedSearchParams[6],
-        vehicleType: sortedSearchParams[7],
-        gearbox: sortedSearchParams[8],
-        powerFrom: sortedSearchParams[9],
-        powerTo: sortedSearchParams[10],
-        priceFrom: sortedSearchParams[11],
-        priceTo: sortedSearchParams[12]
+    let toSend;
+    if(searchOrCreate === "search") {
+
+        toSend = {
+            brand: prepareToSend(sortedSearchParams[0]),
+            model: prepareToSend(sortedSearchParams[1]),
+            yearFrom: sortedSearchParams[2],
+            yearTo: sortedSearchParams[3],
+            fuel: sortedSearchParams[4],
+            kmFrom: sortedSearchParams[5],
+            kmTo: sortedSearchParams[6],
+            vehicleType: sortedSearchParams[7],
+            gearbox: sortedSearchParams[8],
+            powerFrom: sortedSearchParams[9],
+            powerTo: sortedSearchParams[10],
+            priceFrom: sortedSearchParams[11],
+            priceTo: sortedSearchParams[12]
+        };
+    } else if (searchOrCreate === "create"){
+
+        toSend = {
+            brand: prepareToSend(sortedSearchParams[0]),
+            model: prepareToSend(sortedSearchParams[1]),
+            Age: sortedSearchParams[2],
+            fuelType: sortedSearchParams[4],
+            kilometer: sortedSearchParams[5],
+            vehicleType: sortedSearchParams[7],
+            gearbox: sortedSearchParams[8],
+            powerPS: sortedSearchParams[9],
+            price: sortedSearchParams[11]
+        };
     }
 
     $("#brandInput").val(JSON.stringify(toSend));
 }
+
 
 function ResultOptionsChange(pageNumber){
     const sort = $("#sort-option").children("option:selected").val();

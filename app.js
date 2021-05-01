@@ -288,13 +288,66 @@ app.get('/logout', function(req, res){
 //************ Create ************//
 //********************************//
 
-app.get('/create', function(req, res) {
-    if (req.isAuthenticated()) {
-        res.render("create");
-    } else {
-        res.redirect("/login");
-    }
-});
+app.route('/create')
+
+
+    .get(function(req, res) {
+    // if (req.isAuthenticated()) {
+    //     res.render("create");
+    // } else {
+    //     res.redirect("/login");
+    // }
+
+
+        Models.BrandAndModel.find({},{brand: 1, models: 1, _id: 0}, function(err, foundItems){
+            if(!err){
+                Models.Parameter.find({}, {vehicleType: 1, gearbox: 1, fuelType: 1, _id: 0}, function(err2, foundParams){
+                    if(!err2){
+                        res.render('create', {
+                            brandsAndModels: JSON.stringify(foundItems),
+                            vehicleType: foundParams[0].vehicleType,
+                            gearbox: foundParams[0].gearbox,
+                            fuelType: foundParams[0].fuelType,
+                            years: paramModify.fillYear(),
+                            recover: (req.query.recover) ? req.session.filterParams : ""
+                        });
+                    } else {
+                        console.log(err);
+                    }
+                })
+            } else {
+                console.log(err);
+            }
+        });
+    })
+    .post(function(req, res){
+        const vehicleData = JSON.parse(req.body.brandInput);
+
+        const newVehicle = new Models.Car({
+            price: vehicleData.price,
+            vehicleType: vehicleData.vehicleType,
+            gearbox: vehicleData.gearbox,
+            powerPS: vehicleData.powerPS,
+            model: vehicleData.model,
+            kilometer: vehicleData.kilometer,
+            fuelType: vehicleData.fuelType,
+            brand: vehicleData.brand,
+            firstRegistration: vehicleData.firstRegistration
+        });
+
+        console.log(newVehicle._id);
+        //Get user id and put id of new ad to DB under user
+        //Create user profile where own ads can be checked
+
+        // newVehicle.save(function(err){
+        //     if(err){
+        //         console.log(err);
+        //     } else {
+        //         res
+        //     }
+        // });
+
+    })
 
 
 

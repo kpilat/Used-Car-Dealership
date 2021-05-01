@@ -1,3 +1,77 @@
 <%- include('partials/header') %>
 
+
+<!--SEARCH FILTER-->
+
+<section id="search-filter">
+    <div class="container">
+        <div class="row col-lg-12 col-md-12 form-filter-title-container">
+            <h2 class="h2-font">Prosím doplňte informácie o vašom vozidle</h2>
+        </div>
+        <div class="row col-lg-12 col-md-12">
+            <form action="/create" class="row g-3 form-filter" method="post">
+                <div class="col-md-12">
+                    <select name="selectedBrand" class="form-select" id="selectedBrand" required onchange="getModel()">
+                        <option value="">Značka</option>
+                    </select>
+                    <input type="hidden" name="brandInput" id="brandInput" value="">
+                    <input type="hidden" id="brandOutput" value="<%= brandsAndModels + ";" + recover %>">
+                </div>
+                <div class="col-md-12">
+                    <select class="form-select" id="selectedModel" required>
+                        <option value="">Model</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <select class="form-select year-own" id="selectedYearFrom" required>
+                        <option value="">Rok výroby</option>
+                        <% years.forEach(function(item){ %>
+                            <option> <%= item %> </option>
+                        <% }) %>
+                    </select>
+                </div>
+                <div class="col-6">
+                    <input type="number" class="form-control" placeholder="Stav tachometra" id="selectedKmFrom">
+                </div>
+                <div class="col-md-12">
+                    <select class="form-select" id="selectedFuel" required>
+                        <option value="">Typ paliva</option>
+                        <% fuelType.forEach(function(item){ %>
+                            <option> <%= item %> </option>
+                        <% }) %>
+                    </select>
+                </div>
+                <div class="col-md-12">
+                    <select class="form-select" id="selectedBodyType" required>
+                        <option value="">Typ karosérie</option>
+                        <% vehicleType.forEach(function(item){ %>
+                            <option> <%= item %> </option>
+                        <% }) %>
+                    </select>
+                </div>
+                <div class="col-md-12">
+                    <select class="form-select" id="selectedGearbox" required>
+                        <option value="">Prevodovka</option>
+                        <% gearbox.forEach(function(item){ %>
+                            <option> <%= item %> </option>
+                        <% }) %>
+                    </select>
+                </div>
+                <div class="col-6">
+                    <input type="number" class="form-control" placeholder="Výkon (hp)" id="powerFrom" required>
+                </div>
+                <div class="col-6">
+                    <input type="number" class="form-control" placeholder="Cena" id="PriceFrom" required>
+                </div>
+                <div class="col-12 search-btn">
+                    <button type="submit" class="btn btn-lg btn-dark" onclick="gatherValues('create')"><i class="far fa-plus-square" style="padding-right: 8px"></i>Pridať inzerát</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+
+
+
 <%- include('partials/footer') %>
