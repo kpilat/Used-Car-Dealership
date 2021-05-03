@@ -1,0 +1,37 @@
+<%- include('partials/header') %>
+
+<div class="container profile-details">
+
+    <div class="card mb-3">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-3"><h6 class="mb-0">Užívateľske meno</h6></div>
+                <div class="col-sm-9 text-secondary"> <%= user.username %></div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-sm-3"><h6 class="mb-0">Email</h6></div>
+                <div class="col-sm-9 text-secondary"> <%= user.email %></div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-sm-3"><h6 class="mb-0">Číslo telefónu</h6></div>
+                <div class="col-sm-9 text-secondary"> <%= user.phone %></div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-sm-3"><h6 class="mb-0">Počet inzerátov</h6></div>
+                <div class="col-sm-9 text-secondary"> <%= user.ads.length %></div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-sm-3"><h6 class="mb-0">Miesto predaja</h6></div>
+                <div class="col-sm-9 text-secondary"> <%= user.town %> </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<%- include('partials/footer') %>

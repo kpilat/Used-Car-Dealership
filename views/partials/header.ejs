@@ -55,8 +55,8 @@
                     </a>
                     <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
                         <% if(user !== "false") {%>
-                                <li><a class="dropdown-item" href="#">Profil</a></li>
-                                <li><a class="dropdown-item" href="#">Moje inzeráty</a></li>
+                                <li><a class="dropdown-item" href="/profile?id=<%= user._id %>">Profil</a></li>
+                                <li><a class="dropdown-item" href="/userads?id=<%= user._id %>">Moje inzeráty</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="/logout">Odhlásiť</a></li>
                         <% } else { %>

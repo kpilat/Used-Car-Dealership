@@ -29,6 +29,7 @@ const userSchema = new mongoose.Schema({
     password: String,
     username: String,
     phone: String,
+    town: String,
     ads: Array
 });
 

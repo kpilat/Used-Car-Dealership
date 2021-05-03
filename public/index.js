@@ -143,7 +143,7 @@ function gatherValues(searchOrCreate){
         toSend = {
             brand: prepareToSend(sortedSearchParams[0]),
             model: prepareToSend(sortedSearchParams[1]),
-            Age: sortedSearchParams[2],
+            firstRegistration: sortedSearchParams[2],
             fuelType: sortedSearchParams[4],
             kilometer: sortedSearchParams[5],
             vehicleType: sortedSearchParams[7],

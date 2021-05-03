@@ -245,7 +245,8 @@ app.route('/register')
                     email: req.body.email,
                     password: hash,
                     username: req.body.username,
-                    phone: req.body.phone
+                    phone: req.body.phone,
+                    town: req.body.town
                 });
                 newUser.save();
                 res.redirect("/login");
@@ -286,7 +287,7 @@ app.route('/login')
 app.get('/logout', function(req, res){
     req.logout();
     res.redirect("/");
-})
+});
 
 
 //********************************//
@@ -341,6 +342,7 @@ app.route('/create')
             });
 
 
+
             newVehicle.save(function(err){
                 if(err){
                     console.log(err);
@@ -367,9 +369,46 @@ app.route('/create')
         //Get user id and put id of new ad to DB under user
         //Create user profile where own ads can be checked
 
-    })
+    });
+
+app.route("/profile")
+
+    .get(function (req, res) {
+
+        if (req.isAuthenticated() && req.query.id === (req.user._id).toString()) {
+            console.log(req.query.id);
+            res.render("profile",{
+                user: (req.user) ? req.user : "false"
+            });
+        } else {
+            res.redirect("/login");
+        }
+    });
 
 
+app.route("/userads")
+
+    .get(function (req, res) {
+        if (req.isAuthenticated() && req.query.id === (req.user._id).toString()) {
+
+            Models.Car.find({
+                '_id': { $in: req.user.ads}
+            }, function(err, foundCars){
+                if(err) {
+                    console.log(err);
+                } else {
+                    res.render("userads",{
+                        user: (req.user) ? req.user : "false",
+                        carList: foundCars
+                    });
+                }
+            });
+
+
+        } else {
+            res.redirect("/login");
+        }
+    });
 
 
 
