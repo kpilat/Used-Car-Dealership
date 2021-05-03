@@ -285,3 +285,9 @@ footer i {
     border-color: #212629;
     background-color: #212629
 }
+
+/*Login*/
+
+.no-account:hover {
+    color: #212629;
+}
