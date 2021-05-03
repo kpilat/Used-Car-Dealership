@@ -1,9 +1,9 @@
 <%- include('partials/header') %>
 
 <div class="row mb-1 results-container">
-    <% if(carList !== undefined){ %>
+    <% if(carList !== undefined && carList.length !== 0){ %>
         <% carList.forEach(function(item){ %>
-            <div class="card flex-md-row mb-4 box-shadow h-md-250 result-card">
+            <div onclick="location.href='/results/ad<%= item._id %>';" style="cursor: pointer;" class="card flex-md-row mb-4 box-shadow h-md-250 result-card">
 
 
                 <div class="card-body d-flex flex-column">
@@ -90,27 +90,23 @@
                             <div class="container row">
                                 <div class="col-md-12  text-end icon-font">
                                     <p class="mb-0">
-                                        <a href="#edit">
+                                        <a href="/edit?id=<%= item._id %>">
                                             <i class="fas fa-pen"></i>
                                         </a>
-                                        <a href="#delete">
+                                        <a href="/delete?id=<%= item._id %>">
                                             <i class="fas fa-trash-alt"></i>
                                         </a>
                                     </p>
                                 </div>
                             </div>
-
-
                         </div>
                     </div>
-
-                    <a href="/results/ad<%= item._id %>" class="card-link"></a>
                 </div>
             </div>
         <% }) %>
     <% } else {%>
 
-        <h1 class="h1-font text-center">Nepodarilo sa nájsť žiadne vozidlo.</h1>
+        <h1 class="h1-font text-center no-ads-title">Nemáte žiadne inzeráty.</h1>
 
     <% } %>
 </div>

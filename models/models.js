@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema({
     username: String,
     phone: String,
     town: String,
-    ads: Array
+    ads: [String]
 });
 
 userSchema.plugin(passportLocalMongoose);

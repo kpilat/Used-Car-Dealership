@@ -21,7 +21,7 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname + "/public"));
 
-const mongooseConnectOptions = {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true};
+const mongooseConnectOptions = {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false};
 const connection = mongoose.connect(process.env.MONGO_URL, mongooseConnectOptions);
 
 
@@ -274,7 +274,7 @@ app.route('/login')
             if (!user) { return res.redirect('/login'); }
             req.logIn(user, function(err) {
                 if (err) { return next(err); }
-                return res.redirect('/');
+                return res.redirect("/profile?id=" + req.user._id);
             });
         })(req, res, next);
     });
@@ -295,8 +295,7 @@ app.get('/logout', function(req, res){
 //********************************//
 
 app.route('/create')
-
-
+    
     .get(function(req, res) {
     if (req.isAuthenticated()) {
         Models.BrandAndModel.find({},{brand: 1, models: 1, _id: 0}, function(err, foundItems){
@@ -354,7 +353,7 @@ app.route('/create')
                             if(err){
                                 console.log(err);
                             } else {
-                                res.redirect("/");
+                                res.redirect("/userads?id=" + req.user._id);
                             }
                         }
                     );
@@ -363,12 +362,6 @@ app.route('/create')
         } else {
             res.redirect("/login");
         }
-
-
-
-        //Get user id and put id of new ad to DB under user
-        //Create user profile where own ads can be checked
-
     });
 
 app.route("/profile")
@@ -376,7 +369,6 @@ app.route("/profile")
     .get(function (req, res) {
 
         if (req.isAuthenticated() && req.query.id === (req.user._id).toString()) {
-            console.log(req.query.id);
             res.render("profile",{
                 user: (req.user) ? req.user : "false"
             });
@@ -410,7 +402,120 @@ app.route("/userads")
         }
     });
 
+app.get("/delete", function (req, res){
+    if (req.isAuthenticated()) {
 
+        Models.User.findOne({_id: req.user._id, ads: req.query.id}, function (err, found){
+            if(err){
+                console.log(err);
+            } else {
+                if(found){
+                    Models.Car.deleteOne({_id: req.query.id}, function(err){
+                        if(err){
+                            console.log(err);
+                        } else {
+                            Models.User.updateOne(
+                                { _id: req.user._id },
+                                { $pull: { ads: req.query.id } },
+                                function (err) {
+                                    if(err){
+                                        console.log(err);
+                                    } else {
+                                        res.redirect("/userads?id=" + req.user._id);
+                                    }
+                                }
+                            );
+                        }
+                    });
+                } else {
+                    res.redirect("/userads?id=" + req.user._id);
+                }
+            }
+        })
+
+    } else {
+        res.redirect("/login");
+    }
+});
+
+app.route("/edit")
+
+    .get(function (req, res) {
+        if (req.isAuthenticated()) {
+
+            Models.User.findOne({_id: req.user._id, ads: req.query.id}, function (err, found){
+                if(err){
+                    console.log(err);
+                } else {
+                    if(found){
+                        Models.BrandAndModel.find({},{brand: 1, models: 1, _id: 0}, function(err, foundItems){
+                            if(!err){
+                                Models.Parameter.find({}, {vehicleType: 1, gearbox: 1, fuelType: 1, _id: 0}, function(err2, foundParams){
+                                    if(!err2){
+                                        Models.Car.findOne({_id: req.query.id}, function(err3, foundCar) {
+                                            if(!err3) {
+
+                                                res.render('edit', {
+                                                    brandsAndModels: JSON.stringify(foundItems),
+                                                    vehicleType: foundParams[0].vehicleType,
+                                                    gearbox: foundParams[0].gearbox,
+                                                    fuelType: foundParams[0].fuelType,
+                                                    years: paramModify.fillYear(),
+                                                    recover: JSON.stringify(foundCar),
+                                                    user: (req.user) ? req.user : "false",
+                                                    carID: foundCar._id
+                                                });
+                                            }
+                                        });
+                                    } else {
+                                        console.log(err);
+                                    }
+                                })
+                            } else {
+                                console.log(err);
+                            }
+                        });
+
+
+                    } else {
+                        res.redirect("/userads?id=" + req.user._id);
+                    }
+                }
+            })
+
+        } else {
+            res.redirect("/login");
+        }
+    })
+
+    .post(function (req, res){
+        if (req.isAuthenticated()) {
+            const vehicleData = JSON.parse(req.body.brandInput);
+
+            const updatedVehicle = {
+                price: vehicleData.price,
+                vehicleType: vehicleData.vehicleType,
+                gearbox: vehicleData.gearbox,
+                powerPS: vehicleData.powerPS,
+                model: vehicleData.model,
+                kilometer: vehicleData.kilometer,
+                fuelType: vehicleData.fuelType,
+                brand: vehicleData.brand,
+                firstRegistration: vehicleData.firstRegistration
+            };
+
+            Models.Car.updateOne({ _id: req.query.id }, updatedVehicle, function(err){
+                if(err){
+                    console.log(err);
+                } else {
+                    res.redirect("/userads?id=" + req.user._id);
+                }
+            })
+
+        } else {
+            res.redirect("/login");
+        }
+    })
 
 
 app.listen(3000, function() {

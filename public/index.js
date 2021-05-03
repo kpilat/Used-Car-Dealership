@@ -167,14 +167,17 @@ function ResultOptionsChange(pageNumber){
 
 function RecoverFilterParams(object){
 
+    console.log(object);
 
     object.brand = beautifyToDisplay(object.brand);
     loopOptions("selectedBrand", object.brand);
     getModel();
     loopOptions("selectedModel", object.model)
     loopOptions("selectedYearFrom", object.yearFrom);
+    loopOptions("selectedYearFrom", (object.firstRegistration).toString());
     loopOptions("selectedYearTo", object.yearTo);
     loopOptions("selectedFuel", object.fuel);
+    loopOptions("selectedFuel", object.fuelType);
     loopOptions("selectedBodyType", object.vehicleType);
     loopOptions("selectedGearbox", object.gearbox);
 
@@ -182,10 +185,13 @@ function RecoverFilterParams(object){
         "selectedKmTo","selectedBodyType","selectedGearbox","powerFrom","powerTo","PriceFrom","PriceTo"];
 
     $("#selectedKmFrom").val(object.kmFrom);
+    $("#selectedKmFrom").val(object.kilometer);
     $("#selectedKmTo").val(object.kmTo);
     $("#powerFrom").val(object.powerFrom);
+    $("#powerFrom").val(object.powerPS);
     $("#powerTo").val(object.powerTo);
     $("#PriceFrom").val(object.priceFrom);
+    $("#PriceFrom").val(object.price);
     $("#PriceTo").val(object.priceTo);
 
 }
