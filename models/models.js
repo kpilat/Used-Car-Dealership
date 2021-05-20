@@ -35,7 +35,8 @@ const userSchema = new mongoose.Schema({
 
 const adminSchema = new mongoose.Schema({
     username: String,
-    password: String
+    password: String,
+    role: String
 });
 
 userSchema.plugin(passportLocalMongoose);

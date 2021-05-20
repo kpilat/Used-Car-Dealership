@@ -78,7 +78,7 @@ passport.use("administrator", new LocalStrategy({usernameField: "email"},functio
         if (err) return done(err);
         if (!admin) return done(null, false, { message: 'Incorrect email.' });
 
-        console.log("username: " + admin.username + "\nPassword: " + admin.password);
+        //console.log("username: " + admin.username + "\nPassword: " + admin.password);
 
         bcrypt.compare(password, admin.password, function (err, res) {
             if (err) return done(err);
@@ -100,7 +100,13 @@ passport.serializeUser(function(user, done) {
 
 passport.deserializeUser(function(id, done) {
     Models.User.findById(id, function(err, user) {
-        done(err, user);
+        if(user){
+            done(err, user);
+        } else {
+            Models.Admin.findById(id, function(err2, admin){
+                done(err2, admin);
+            });
+        }
     });
 });
 
@@ -560,9 +566,9 @@ app.route("/edit")
 
 app.get("/admin", function (req, res) {
 
-    console.log(req);
+    //console.log(req);
 
-    if (req.isAuthenticated()) {
+    if (req.isAuthenticated() && req.user.role === "admin") {
         res.render("admin",{
             user: (req.user) ? req.user : "false"
         });
