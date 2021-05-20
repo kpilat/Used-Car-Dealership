@@ -33,14 +33,21 @@ const userSchema = new mongoose.Schema({
     ads: [String]
 });
 
+const adminSchema = new mongoose.Schema({
+    username: String,
+    password: String
+});
+
 userSchema.plugin(passportLocalMongoose);
+adminSchema.plugin(passportLocalMongoose);
 
 const Car = mongoose.model("Car", carSchema);
 const BrandAndModel = mongoose.model("BrandsAndModel", brandsAndModelsSchema);
 const Parameter = mongoose.model("Parameter", parametersSchema);
 const User = new mongoose.model("User", userSchema);
+const Admin = new mongoose.model("Admin", adminSchema);
 
-module.exports = {Car, BrandAndModel, Parameter, User};
+module.exports = {Car, BrandAndModel, Parameter, User, Admin};
 
 
 

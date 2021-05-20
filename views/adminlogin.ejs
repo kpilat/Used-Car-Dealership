@@ -1,0 +1,38 @@
+<%- include('partials/header') %>
+
+<div class="container register-container">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <h1>Prihlásenie</h1>
+                    <!-- Makes POST request to /register route -->
+                    <form action="/admin/login" method="POST" class="form-body">
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="text" class="form-control" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Heslo</label>
+                            <input type="password" class="form-control" name="password" required>
+                        </div>
+
+                        <div class="container register-button-container">
+
+                            <div class="row register-button text-center">
+                                <div class="col-sm-12 register-type-button">
+                                    <button type="submit" class="btn btn-outline-warning">Prihlásiť sa</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<%- include('partials/footer') %>

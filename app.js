@@ -57,17 +57,34 @@ app.use(passport.session());
 //******** Strategies ************//
 //********************************//
 
-passport.use(new LocalStrategy({usernameField: "email"},function (email, password, done) {
+passport.use("user-local", new LocalStrategy({usernameField: "email"},function (email, password, done) {
 
-    Models.User.findOne({ email: email }, function (err, user) {
+        Models.User.findOne({ email: email }, function (err, user) {
+            if (err) return done(err);
+            if (!user) return done(null, false, { message: 'Incorrect email.' });
+
+            bcrypt.compare(password, user.password, function (err, res) {
+                if (err) return done(err);
+                if (res === false) return done(null, false, { message: 'Incorrect password.' });
+
+                return done(null, user);
+            });
+        });
+}));
+
+passport.use("administrator", new LocalStrategy({usernameField: "email"},function (email, password, done) {
+
+    Models.Admin.findOne({ username: email }, function (err, admin) {
         if (err) return done(err);
-        if (!user) return done(null, false, { message: 'Incorrect email.' });
+        if (!admin) return done(null, false, { message: 'Incorrect email.' });
 
-        bcrypt.compare(password, user.password, function (err, res) {
+        console.log("username: " + admin.username + "\nPassword: " + admin.password);
+
+        bcrypt.compare(password, admin.password, function (err, res) {
             if (err) return done(err);
             if (res === false) return done(null, false, { message: 'Incorrect password.' });
 
-            return done(null, user);
+            return done(null, admin);
         });
     });
 }));
@@ -269,7 +286,7 @@ app.route('/login')
     .post(function(req, res, next){
 
 
-        passport.authenticate('local', function(err, user, info) {
+        passport.authenticate('user-local', function(err, user, info) {
             if (err) { return next(err); }
             if (!user) { return res.redirect('/login'); }
             req.logIn(user, function(err) {
@@ -364,6 +381,11 @@ app.route('/create')
         }
     });
 
+
+//********************************//
+//************ Profile ************//
+//********************************//
+
 app.route("/profile")
 
     .get(function (req, res) {
@@ -377,6 +399,10 @@ app.route("/profile")
         }
     });
 
+
+//********************************//
+//************ User Ads ************//
+//********************************//
 
 app.route("/userads")
 
@@ -401,6 +427,11 @@ app.route("/userads")
             res.redirect("/login");
         }
     });
+
+
+//********************************//
+//************ Delete ************//
+//********************************//
 
 app.get("/delete", function (req, res){
     if (req.isAuthenticated()) {
@@ -437,6 +468,11 @@ app.get("/delete", function (req, res){
         res.redirect("/login");
     }
 });
+
+
+//********************************//
+//************ Edit ************//
+//********************************//
 
 app.route("/edit")
 
@@ -517,6 +553,49 @@ app.route("/edit")
         }
     })
 
+
+//********************************//
+//********** Admin login *********//
+//********************************//
+
+app.get("/admin", function (req, res) {
+
+    console.log(req);
+
+    if (req.isAuthenticated()) {
+        res.render("admin",{
+            user: (req.user) ? req.user : "false"
+        });
+    } else {
+        res.redirect("/admin/login");
+    }
+});
+
+
+//********************************//
+//********** Admin login *********//
+//********************************//
+
+app.route("/admin/login")
+
+    .get(function (req, res) {
+        res.render("adminlogin", {
+            user: (req.user) ? req.user : "false"
+        });
+    })
+
+    .post(function(req, res, next){
+
+        passport.authenticate('administrator', function(err, admin, info) {
+
+            if (err) { return next(err); }
+            if (!admin) { return res.redirect('/admin/login'); }
+            req.logIn(admin, function(err) {
+                if (err) { return next(err); }
+                return res.redirect("/admin");
+            });
+        })(req, res, next);
+    });
 
 app.listen(3000, function() {
     console.log("Server started on port 3000");
