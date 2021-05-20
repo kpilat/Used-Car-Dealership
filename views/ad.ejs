@@ -1,6 +1,31 @@
 <%- include('partials/header'); -%>
 
 
+
+<div class="modal" id="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Prečo chcete tento inzerát nahlásiť?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/report?id=<%= id %>" method="post">
+                <div class="modal-body">
+
+                    <div class="mb-3">
+                        <textarea name="reportDescription" class="form-control" id="exampleFormControlTextarea1" rows="5" style="resize: none" required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-warning">Odoslať</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
 <div class="container ad-container">
     <div class="container row">
         <div class="col-md-7">
@@ -78,6 +103,30 @@
             </div>
         </div>
     </div>
+
+    <% if(user.role) {%>
+        <div class="container row">
+            <div class="col-md-12  text-start report-btn">
+                <p class="mb-0">
+                    <a href="#">
+                        <i class="fas fa-exclamation-triangle"></i> Zmazať inzerát
+                    </a>
+                </p>
+            </div>
+        </div>
+    <% } else if(user !== "false") { %>
+        <div class="container row">
+            <div class="col-md-12  text-start report-btn">
+                <p class="mb-0">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#modal">
+                        <i class="fas fa-exclamation-triangle"></i> Nahlásiť inzerát
+                    </a>
+                </p>
+            </div>
+        </div>
+    <% } %>
+
+
 </div>
 
 

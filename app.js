@@ -116,9 +116,8 @@ passport.deserializeUser(function(id, done) {
 //********************************//
 
 
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) return next();
-    res.redirect('/login');
+function isAdmin(req) {
+    return !!(req.isAuthenticated() && req.user.role === "admin");
 }
 
 function isLoggedOut(req, res, next) {
@@ -231,6 +230,7 @@ app.get('/results/ad:id', function(req, res) {
         if(!err){
             res.render("ad", {
                 foundCar: foundCar,
+                id: adID,
                 user: (req.user) ? req.user : "false"
             });
         } else {
@@ -568,7 +568,7 @@ app.get("/admin", function (req, res) {
 
     //console.log(req);
 
-    if (req.isAuthenticated() && req.user.role === "admin") {
+    if (isAdmin(req)) {
         res.render("admin",{
             user: (req.user) ? req.user : "false"
         });
@@ -602,6 +602,47 @@ app.route("/admin/login")
             });
         })(req, res, next);
     });
+
+
+app.post("/report", function (req, res) {
+
+    // console.log(req.body.reportDescription);
+    // console.log(req.query.id);
+    // console.log(req.user._id);
+
+    if(!req.body.reportDescription){
+        res.redirect("/results/ad" + req.query.id);
+    }
+
+    const newReport = {
+        userId: req.user._id,
+        description: req.body.reportDescription
+    };
+
+    const adminId = mongoose.Types.ObjectId(process.env.ADMINID);
+
+    Models.Admin.updateOne({ _id: adminId }, { $push: { reports: newReport } }, function(err, admin){
+        if(err){
+            console.log(err);
+        } else {
+            console.log(admin);
+            res.redirect("/results/ad" + req.query.id);
+        }
+    })
+});
+
+app.route("/reports")
+
+    .get(function (req, res) {
+        if(isAdmin(req)){
+            res.render("reports", {
+                user: (req.user) ? req.user : "false"
+            })
+        } else {
+            res.redirect('/admin/login');
+        }
+    })
+
 
 app.listen(3000, function() {
     console.log("Server started on port 3000");

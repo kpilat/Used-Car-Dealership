@@ -260,6 +260,22 @@ footer i {
     padding-top: 20px;
 }
 
+.report-btn {
+    font-size: 18px;
+    margin: 0 1.1%;
+    padding-top: 20px;
+}
+
+.report-btn a {
+    text-decoration: none;
+    color: #212629;
+}
+
+.report-btn a:hover i {
+    text-decoration: none;
+    color: #e70000;
+}
+
 
 /*Register*/
 
