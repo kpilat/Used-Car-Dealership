@@ -440,39 +440,44 @@ app.route("/userads")
 //********************************//
 
 app.get("/delete", function (req, res){
-    if (req.isAuthenticated()) {
 
+    if(!req.isAuthenticated()){
+        return res.redirect("/login");
+    }
+
+    if (!req.user.role) {
         Models.User.findOne({_id: req.user._id, ads: req.query.id}, function (err, found){
             if(err){
                 console.log(err);
             } else {
-                if(found){
-                    Models.Car.deleteOne({_id: req.query.id}, function(err){
-                        if(err){
-                            console.log(err);
-                        } else {
-                            Models.User.updateOne(
-                                { _id: req.user._id },
-                                { $pull: { ads: req.query.id } },
-                                function (err) {
-                                    if(err){
-                                        console.log(err);
-                                    } else {
-                                        res.redirect("/userads?id=" + req.user._id);
-                                    }
-                                }
-                            );
-                        }
-                    });
-                } else {
-                    res.redirect("/userads?id=" + req.user._id);
+                if(!found){
+                    return res.redirect("/userads?id=" + req.user._id);
                 }
             }
-        })
-
-    } else {
-        res.redirect("/login");
+        });
     }
+
+    Models.Car.deleteOne({_id: req.query.id}, function(err){
+        if(err){
+            console.log(err);
+        } else {
+            Models.User.updateOne(
+                { ads: req.query.id },
+                { $pull: { ads: req.query.id } },
+                function (err) {
+                    if(err){
+                        console.log(err);
+                    } else {
+                        if(!req.user.role) {
+                            res.redirect("/userads?id=" + req.user._id);
+                        } else {
+                            res.redirect("/reports");
+                        }
+                    }
+                }
+            );
+        }
+    });
 });
 
 

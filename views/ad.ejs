@@ -30,6 +30,9 @@
 
 
 <div class="container ad-container">
+
+    <% if(foundCar) { %>
+
     <div class="container row">
         <div class="col-md-7">
             <img src="http://via.placeholder.com/640x360" alt="image-of-car">
@@ -127,6 +130,10 @@
                 </p>
             </div>
         </div>
+    <% } %>
+
+    <% } else { %>
+            <h1 class="h1-font text-center">Inzerát bol zmazaný.</h1>
     <% } %>
 
 
