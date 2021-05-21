@@ -328,3 +328,9 @@ footer i {
 .no-ads-title {
     margin: 18% auto;
 }
+
+/*Reports*/
+
+.reports-container {
+    margin: 3% 8%;
+}

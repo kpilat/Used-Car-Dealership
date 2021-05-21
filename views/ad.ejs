@@ -9,11 +9,14 @@
                 <h5 class="modal-title">Prečo chcete tento inzerát nahlásiť?</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="/report?id=<%= id %>" method="post">
+            <form action="/report?id=<%= adId %>" method="post">
                 <div class="modal-body">
-
                     <div class="mb-3">
-                        <textarea name="reportDescription" class="form-control" id="exampleFormControlTextarea1" rows="5" style="resize: none" required></textarea>
+                        <input type="text" name="reportTitle" class="form-control" id="exampleFormControlInput1" placeholder="Predmet" required>
+                    </div>
+                    <label id="charsLeft">Ešte máte 120 znakov</label>
+                    <div class="mb-3">
+                        <textarea name="reportDescription" class="form-control" id="reportDescription" rows="5" style="resize: none" placeholder="Správa" maxlength="100" required></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -108,7 +111,7 @@
         <div class="container row">
             <div class="col-md-12  text-start report-btn">
                 <p class="mb-0">
-                    <a href="#">
+                    <a href="/delete?id=<%= adId %>">
                         <i class="fas fa-exclamation-triangle"></i> Zmazať inzerát
                     </a>
                 </p>

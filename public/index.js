@@ -9,8 +9,20 @@ function getSelectValue(){
 $(function(){
 
     //changeBackgroundColor();
-
     const rawData = $("#brandOutput").val()
+    
+    const reportDes = $("#reportDescription")
+
+    reportDes.on("change keyup paste", function () {
+        charsLeft = 120 - reportDes.val().length;
+        $("#charsLeft").text("Ešte máte " + charsLeft + " znakov")
+    })
+
+
+        // .addEventListener("change", function () {
+        //     const len = $("#reportDescription").val().length;
+        //     console.log(len);
+        // })
 
     DisplayFilter(rawData)
 

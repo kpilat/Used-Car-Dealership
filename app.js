@@ -230,7 +230,7 @@ app.get('/results/ad:id', function(req, res) {
         if(!err){
             res.render("ad", {
                 foundCar: foundCar,
-                id: adID,
+                adId: adID,
                 user: (req.user) ? req.user : "false"
             });
         } else {
@@ -610,12 +610,14 @@ app.post("/report", function (req, res) {
     // console.log(req.query.id);
     // console.log(req.user._id);
 
-    if(!req.body.reportDescription){
+    if(!req.body.reportDescription || !req.body.reportTitle || req.body.reportDescription.length > 120){
         res.redirect("/results/ad" + req.query.id);
     }
 
     const newReport = {
+        adId: mongoose.Types.ObjectId(req.query.id),
         userId: req.user._id,
+        title: req.body.reportTitle,
         description: req.body.reportDescription
     };
 
@@ -625,7 +627,6 @@ app.post("/report", function (req, res) {
         if(err){
             console.log(err);
         } else {
-            console.log(admin);
             res.redirect("/results/ad" + req.query.id);
         }
     })
@@ -634,14 +635,46 @@ app.post("/report", function (req, res) {
 app.route("/reports")
 
     .get(function (req, res) {
-        if(isAdmin(req)){
-            res.render("reports", {
-                user: (req.user) ? req.user : "false"
-            })
+
+        if(!isAdmin(req)){
+            return res.redirect('/admin/login');
+        }
+
+        Models.Admin.findById(process.env.ADMINID, {reports: 1},function (err, reports) {
+            if(err){
+                console.log(err);
+            } else {
+                res.render("reports", {
+                    reports: reports.reports.reverse(),
+                    user: (req.user) ? req.user : "false"
+                })
+            }
+        })
+
+
+
+    })
+
+app.get("/admindelete", function (req, res) {
+
+    if(!isAdmin(req)){
+        return res.redirect('/admin/login');
+    }
+
+    const userId = mongoose.Types.ObjectId(req.query.userid);
+    const adId = mongoose.Types.ObjectId(req.query.adid);
+
+    console.log(adId);
+    console.log(userId);
+
+    Models.Admin.updateOne({_id: process.env.ADMINID}, { $pull: { reports: { userId: userId, adId: adId}}}, function (err){
+        if(err){
+            console.log(err);
         } else {
-            res.redirect('/admin/login');
+            res.redirect("/reports");
         }
     })
+})
 
 
 app.listen(3000, function() {
