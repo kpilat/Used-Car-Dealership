@@ -13,6 +13,7 @@ const Models = require(__dirname + "/models/models");
 const paramModify = require(__dirname + "/scripts/paramModify");
 const queries = require(__dirname + "/scripts/queries")
 
+
 //********************************//
 //************* Uses *************//
 //********************************//
@@ -115,7 +116,6 @@ passport.deserializeUser(function(id, done) {
 //*********  Functions *********//
 //********************************//
 
-
 function isAdmin(req) {
     return !!(req.isAuthenticated() && req.user.role === "admin");
 }
@@ -136,9 +136,14 @@ app.route("/")
 
         Models.BrandAndModel.find({},{brand: 1, models: 1, _id: 0}, function(err, foundItems){
             if(!err){
+                let brands = [];
+                foundItems.forEach(function(car){
+                    brands.push(car.brand)
+                });
                 Models.Parameter.find({}, {vehicleType: 1, gearbox: 1, fuelType: 1, _id: 0}, function(err2, foundParams){
                     if(!err2){
                         res.render('home', {
+                            brands: brands.sort(),
                             brandsAndModels: JSON.stringify(foundItems),
                             vehicleType: foundParams[0].vehicleType,
                             gearbox: foundParams[0].gearbox,

@@ -8,7 +8,6 @@ function getSelectValue(){
 
 $(function(){
 
-    //changeBackgroundColor();
     const rawData = $("#brandOutput").val()
     
     const reportDes = $("#reportDescription")
@@ -17,12 +16,6 @@ $(function(){
         charsLeft = 120 - reportDes.val().length;
         $("#charsLeft").text("Ešte máte " + charsLeft + " znakov")
     })
-
-
-        // .addEventListener("change", function () {
-        //     const len = $("#reportDescription").val().length;
-        //     console.log(len);
-        // })
 
     DisplayFilter(rawData)
 
@@ -35,16 +28,6 @@ function DisplayFilter(rawData){
         rawData = rawData.split(';');
 
         data = JSON.parse(rawData[0]);
-        let brandsToDisplay = [];
-        data.forEach(function(item){
-            brandsToDisplay.push(item.brand);
-        })
-
-        brandsToDisplay = prepareToDisplay(brandsToDisplay);
-
-        brandsToDisplay.forEach(function(item){
-            $("#selectedBrand").append("<option>" + item + "</option>");
-        });
 
         if(rawData[1] !== ""){
             RecoverFilterParams(JSON.parse(rawData[1]));
@@ -58,62 +41,24 @@ function getModel(){
 
     let brand = $("#selectedBrand option:selected").text();
     let models = [];
-    let modelsToDisplay = [];
 
-    brand = prepareToSend(brand);
 
     data.forEach(function(item){
-        if(brand === item.brand){
+        if(brand === " " + item.brand + " "){
             models = item.models;
         }
     })
 
-    modelsToDisplay = prepareToDisplay(models);
+    models = models.sort();
 
     $("#selectedModel").empty().append("<option>Model</option>");
-    modelsToDisplay.forEach(function(item){
+    models.forEach(function(item){
         $("#selectedModel").append("<option>" + item + "</option>");
     });
 }
 
 
 
-
-function prepareToDisplay(input){
-    let output = [];
-    input.forEach(function(item){
-        if (typeof item === 'string') {
-            let tmp = item.split('_').join(' ');
-            output.push(tmp.charAt(0).toUpperCase() + tmp.slice(1));
-        } else {
-            output.push(item);
-        }
-    })
-    return output.sort();
-}
-
-function beautifyToDisplay(input){
-
-    if (typeof input === 'string') {
-        let tmp = input.split('_').join(' ');
-        return tmp.charAt(0).toUpperCase() + tmp.slice(1);
-    } else {
-        return input;
-    }
-}
-
-
-
-
-function prepareToSend(input){
-
-    if(input !== undefined){
-    let output = [];
-    output = input.split(' ').join('_');
-    output = output.charAt(0).toLowerCase() + output.slice(1);
-    return output;
-    }
-}
 
 function gatherValues(searchOrCreate){
 
@@ -136,8 +81,8 @@ function gatherValues(searchOrCreate){
     if(searchOrCreate === "search") {
 
         toSend = {
-            brand: prepareToSend(sortedSearchParams[0]),
-            model: prepareToSend(sortedSearchParams[1]),
+            brand: sortedSearchParams[0],
+            model: sortedSearchParams[1],
             yearFrom: sortedSearchParams[2],
             yearTo: sortedSearchParams[3],
             fuel: sortedSearchParams[4],
@@ -153,8 +98,8 @@ function gatherValues(searchOrCreate){
     } else if (searchOrCreate === "create"){
 
         toSend = {
-            brand: prepareToSend(sortedSearchParams[0]),
-            model: prepareToSend(sortedSearchParams[1]),
+            brand: sortedSearchParams[0],
+            model: sortedSearchParams[1],
             firstRegistration: sortedSearchParams[2],
             fuelType: sortedSearchParams[4],
             kilometer: sortedSearchParams[5],
@@ -165,6 +110,7 @@ function gatherValues(searchOrCreate){
         };
     }
 
+    console.log(toSend);
     $("#brandInput").val(JSON.stringify(toSend));
 }
 
@@ -181,12 +127,11 @@ function RecoverFilterParams(object){
 
     console.log(object);
 
-    object.brand = beautifyToDisplay(object.brand);
     loopOptions("selectedBrand", object.brand);
     getModel();
     loopOptions("selectedModel", object.model)
     loopOptions("selectedYearFrom", object.yearFrom);
-    loopOptions("selectedYearFrom", (object.firstRegistration).toString());
+    loopOptions("selectedYearFrom", (object.firstRegistration) ? (object.firstRegistration).toString() : undefined);
     loopOptions("selectedYearTo", object.yearTo);
     loopOptions("selectedFuel", object.fuel);
     loopOptions("selectedFuel", object.fuelType);

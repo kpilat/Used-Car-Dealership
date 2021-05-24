@@ -10,7 +10,7 @@ function PrepareForSearch(packedFilterParams) {
 
     const conditions = {
         brand: readyParams.brand,
-        model: (readyParams.model) ? readyParams.model : /.*/,
+        model: (readyParams.model !== "Model" && readyParams.model) ? readyParams.model : /.*/,
         kilometer: {
             $gt: (readyParams.kmFrom) ? readyParams.kmFrom : 0,
             $lt: (readyParams.kmTo) ? readyParams.kmTo : 1000000

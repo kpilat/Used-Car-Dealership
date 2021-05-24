@@ -21,6 +21,9 @@
 
                     <select name="selectedBrand" class="form-select" id="selectedBrand" required="" onchange="getModel()">
                         <option value="">Značka</option>
+                        <% brands.forEach(function(brand){ %>
+                            <option> <%= brand %> </option>
+                        <% }) %>
                     </select>
                     <input type="hidden" name="brandInput" id="brandInput" value="">
                     <input type="hidden" id="brandOutput" value="<%= brandsAndModels + ";" + recover %>">
