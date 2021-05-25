@@ -82,7 +82,7 @@ function gatherValues(searchOrCreate){
 
         toSend = {
             brand: sortedSearchParams[0],
-            model: sortedSearchParams[1],
+            model: (sortedSearchParams[1] === "Model") ? undefined : sortedSearchParams[1],
             yearFrom: sortedSearchParams[2],
             yearTo: sortedSearchParams[3],
             fuel: sortedSearchParams[4],
@@ -99,7 +99,7 @@ function gatherValues(searchOrCreate){
 
         toSend = {
             brand: sortedSearchParams[0],
-            model: sortedSearchParams[1],
+            model: (sortedSearchParams[1] === "Model") ? undefined : sortedSearchParams[1],
             firstRegistration: sortedSearchParams[2],
             fuelType: sortedSearchParams[4],
             kilometer: sortedSearchParams[5],

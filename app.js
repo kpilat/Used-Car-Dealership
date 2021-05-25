@@ -134,6 +134,8 @@ app.route("/")
 
     .get(function(req, res) {
 
+        const conditions = queries.PrepareForSearch(req.session.filterParams);
+
         Models.BrandAndModel.find({},{brand: 1, models: 1, _id: 0}, function(err, foundItems){
             if(!err){
                 let brands = [];
@@ -142,16 +144,32 @@ app.route("/")
                 });
                 Models.Parameter.find({}, {vehicleType: 1, gearbox: 1, fuelType: 1, _id: 0}, function(err2, foundParams){
                     if(!err2){
-                        res.render('home', {
-                            brands: brands.sort(),
-                            brandsAndModels: JSON.stringify(foundItems),
-                            vehicleType: foundParams[0].vehicleType,
-                            gearbox: foundParams[0].gearbox,
-                            fuelType: foundParams[0].fuelType,
-                            years: paramModify.fillYear(),
-                            recover: (req.query.recover) ? req.session.filterParams : "",
-                            user: (req.user) ? req.user : "false"
-                        });
+                        Models.Car.find(conditions
+                            , {__v: 0}, function(err, foundCars){
+                                if (err){
+                                    console.log(err)
+                                } else {
+                                    let carouselAds = []
+                                    let len = foundCars.length;
+                                    for (let i = 0; i < 5; i++){
+                                        const random = Math.floor(Math.random() * len);
+                                        if(!carouselAds.includes(foundCars[random])){
+                                            carouselAds.push(foundCars[random]);
+                                        }
+                                    }
+                                    res.render('home', {
+                                        carouselAds: carouselAds,
+                                        brands: brands.sort(),
+                                        brandsAndModels: JSON.stringify(foundItems),
+                                        vehicleType: foundParams[0].vehicleType,
+                                        gearbox: foundParams[0].gearbox,
+                                        fuelType: foundParams[0].fuelType,
+                                        years: paramModify.fillYear(),
+                                        recover: (req.query.recover) ? req.session.filterParams : "",
+                                        user: (req.user) ? req.user : "false"
+                                    });
+                                }
+                            });
                     } else {
                         console.log(err);
                     }
@@ -328,9 +346,14 @@ app.route('/create')
     if (req.isAuthenticated()) {
         Models.BrandAndModel.find({},{brand: 1, models: 1, _id: 0}, function(err, foundItems){
             if(!err){
+                let brands = [];
+                foundItems.forEach(function(car){
+                    brands.push(car.brand)
+                });
                 Models.Parameter.find({}, {vehicleType: 1, gearbox: 1, fuelType: 1, _id: 0}, function(err2, foundParams){
                     if(!err2){
                         res.render('create', {
+                            brands: brands,
                             brandsAndModels: JSON.stringify(foundItems),
                             vehicleType: foundParams[0].vehicleType,
                             gearbox: foundParams[0].gearbox,
@@ -502,12 +525,17 @@ app.route("/edit")
                     if(found){
                         Models.BrandAndModel.find({},{brand: 1, models: 1, _id: 0}, function(err, foundItems){
                             if(!err){
+                                let brands = [];
+                                foundItems.forEach(function(car){
+                                    brands.push(car.brand)
+                                });
                                 Models.Parameter.find({}, {vehicleType: 1, gearbox: 1, fuelType: 1, _id: 0}, function(err2, foundParams){
                                     if(!err2){
                                         Models.Car.findOne({_id: req.query.id}, function(err3, foundCar) {
                                             if(!err3) {
 
                                                 res.render('edit', {
+                                                    brands: brands,
                                                     brandsAndModels: JSON.stringify(foundItems),
                                                     vehicleType: foundParams[0].vehicleType,
                                                     gearbox: foundParams[0].gearbox,
@@ -608,7 +636,7 @@ app.route("/admin/login")
             if (!admin) { return res.redirect('/admin/login'); }
             req.logIn(admin, function(err) {
                 if (err) { return next(err); }
-                return res.redirect("/admin");
+                return res.redirect("/reports");
             });
         })(req, res, next);
     });

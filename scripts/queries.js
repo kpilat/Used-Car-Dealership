@@ -4,13 +4,20 @@ const paramModify = require("../scripts/paramModify");
 
 function PrepareForSearch(packedFilterParams) {
 
-    const filterParams = JSON.parse(packedFilterParams)
+    let readyParams;
 
-    let readyParams = Clean(filterParams);
+    if(typeof packedFilterParams === "string"){
+        readyParams = JSON.parse(packedFilterParams);
+    } else {
+        readyParams = packedFilterParams;
+    }
+
+
+    //let readyParams = Clean(filterParams);
 
     const conditions = {
-        brand: readyParams.brand,
-        model: (readyParams.model !== "Model" && readyParams.model) ? readyParams.model : /.*/,
+        brand: (readyParams.brand) ? readyParams.brand : /.*/,
+        model: (readyParams.model) ? readyParams.model : /.*/,
         kilometer: {
             $gt: (readyParams.kmFrom) ? readyParams.kmFrom : 0,
             $lt: (readyParams.kmTo) ? readyParams.kmTo : 1000000
@@ -36,13 +43,13 @@ function PrepareForSearch(packedFilterParams) {
     return conditions;
 }
 
-function Clean(obj){
-
-    if(obj.model === "model"){
-        delete obj.model;
-    }
-    return obj;
-}
+// function Clean(obj){
+//
+//     if(obj.model === "Model"){
+//         delete obj.model;
+//     }
+//     return obj;
+// }
 
 function SortBy(input){
     let output = "";

@@ -13,6 +13,9 @@
                 <div class="col-md-12">
                     <select name="selectedBrand" class="form-select" id="selectedBrand" required onchange="getModel()">
                         <option value="">Značka</option>
+                        <% brands.forEach(function(brand){ %>
+                            <option> <%= brand %> </option>
+                        <% }) %>
                     </select>
                     <input type="hidden" name="brandInput" id="brandInput" value="">
                     <input type="hidden" id="brandOutput" value="<%= brandsAndModels + ";" + recover %>">
@@ -31,7 +34,7 @@
                     </select>
                 </div>
                 <div class="col-6">
-                    <input type="number" class="form-control" placeholder="Stav tachometra" id="selectedKmFrom">
+                    <input type="number" class="form-control" placeholder="Stav tachometra" id="selectedKmFrom" required>
                 </div>
                 <div class="col-md-12">
                     <select class="form-select" id="selectedFuel" required>

@@ -4,14 +4,14 @@
 
     <div id="recommended-ads-carousel" class="carousel slide" data-bs-ride="carousel" data-bs-ride="3000">
         <div class="carousel-inner">
-            <div class="carousel-item active">
-                <h2 class="h2-font recommended-text">Našli sme inzerát, ktorý by vás mohol zaujímať.</h2>
-                <img class="recommended-image" alt="ad-image" src="css/airplane.png">
-            </div>
-            <div class="carousel-item">
-                <h2 class="h2-font recommended-text">Našli sme inzerát, ktorý by vás mohol zaujímať.</h2>
-                <img class="recommended-image" src="css/airplane.png" alt="ad-image">
-            </div>
+            <% carouselAds.forEach(function(ad, index){ %>
+                <div class="carousel-item <%= (index === 1) ? "active" : "" %>">
+                    <h2 class="h2-font recommended-text">Našli sme inzerát, ktorý by vás mohol zaujímať.</h2>
+                    <a href="/results/ad<%= ad._id %>">
+                        <img class="recommended-image" data-src="holder.js/200x250?theme=thumb" alt="Thumbnail [200x250]" src="https://via.placeholder.com/1920x1080" data-holder-rendered="true">
+                    </a>
+                </div>
+            <% }) %>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#recommended-ads-carousel"  data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>

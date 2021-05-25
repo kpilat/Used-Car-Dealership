@@ -39,6 +39,7 @@
                 </a>
             </div>
 
+            <% if(!user.role) {%>
             <div class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 text-center">
                 <a href="/create">
                     <button type="button" class="btn btn-warning">
@@ -47,7 +48,7 @@
                     </button>
                 </a>
             </div>
-
+            <% } %>
             <div class="text-end">
                 <div class="flex-shrink-0 dropdown">
                     <a href="#" class="d-block link-light text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
@@ -55,7 +56,6 @@
                     </a>
                     <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
                         <% if(user.role) {%>
-                                <li><a class="dropdown-item" href="/profile?id=<%= user._id %>">Správy</a></li>
                                 <li><a class="dropdown-item" href="/reports">Nahlásené inzeráty</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="/logout">Odhlásiť sa</a></li>
