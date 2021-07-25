@@ -16,27 +16,27 @@ function PrepareForSearch(packedFilterParams) {
     //let readyParams = Clean(filterParams);
 
     const conditions = {
-        brand: (readyParams.brand) ? readyParams.brand : /.*/,
-        model: (readyParams.model) ? readyParams.model : /.*/,
+        brand: (readyParams && readyParams.brand) ? readyParams.brand : /.*/,
+        model: (readyParams && readyParams.model) ? readyParams.model : /.*/,
         kilometer: {
-            $gt: (readyParams.kmFrom) ? readyParams.kmFrom : 0,
-            $lt: (readyParams.kmTo) ? readyParams.kmTo : 1000000
+            $gt: (readyParams && readyParams.kmFrom) ? readyParams.kmFrom : 0,
+            $lt: (readyParams && readyParams.kmTo) ? readyParams.kmTo : 1000000
         },
         firstRegistration: {
-            $gt: (readyParams.yearFrom) ? readyParams.yearFrom : 1970,
-            $lt: (readyParams.yearTo) ? readyParams.yearTo : paramModify.getYear()
+            $gt: (readyParams && readyParams.yearFrom) ? readyParams.yearFrom : 1970,
+            $lt: (readyParams && readyParams.yearTo) ? readyParams.yearTo : paramModify.getYear()
         },
         powerPS: {
-            $gt: (readyParams.powerFrom) ? readyParams.powerFrom : 0,
-            $lt: (readyParams.powerTo) ? readyParams.powerTo : 15000
+            $gt: (readyParams && readyParams.powerFrom) ? readyParams.powerFrom : 0,
+            $lt: (readyParams && readyParams.powerTo) ? readyParams.powerTo : 15000
         },
         price: {
-            $gt: (readyParams.priceFrom) ? readyParams.priceFrom : 0,
-            $lt: (readyParams.priceTo) ? readyParams.priceTo : 100000000
+            $gt: (readyParams && readyParams.priceFrom) ? readyParams.priceFrom : 0,
+            $lt: (readyParams && readyParams.priceTo) ? readyParams.priceTo : 100000000
         },
-        fuelType: (readyParams.fuel) ? readyParams.fuel : /.*/,
-        vehicleType: (readyParams.vehicleType) ? readyParams.vehicleType : /.*/,
-        gearbox: (readyParams.gearbox) ? readyParams.gearbox : /.*/,
+        fuelType: (readyParams && readyParams.fuel) ? readyParams.fuel : /.*/,
+        vehicleType: (readyParams && readyParams.vehicleType) ? readyParams.vehicleType : /.*/,
+        gearbox: (readyParams && readyParams.gearbox) ? readyParams.gearbox : /.*/,
 
     };
 

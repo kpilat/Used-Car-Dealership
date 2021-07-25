@@ -134,6 +134,7 @@ app.route("/")
 
     .get(function(req, res) {
 
+        console.log("fileterParams: " + req.session.filterParams);
         const conditions = queries.PrepareForSearch(req.session.filterParams);
 
         Models.BrandAndModel.find({},{brand: 1, models: 1, _id: 0}, function(err, foundItems){
