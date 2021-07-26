@@ -1,0 +1,28 @@
+@use '../custom' as *;
+@use '../components/mixins' as *;
+
+.menu {
+  @include gradient;
+  font-size: 1.1rem;
+
+  &__logo {
+    display: inline-block;
+
+    i {
+      font-size: 2rem;
+      margin: auto 0.25rem;
+      color: $warning;
+    }
+  }
+
+  &__dropdown {
+
+    @include media-breakpoint-down(lg){
+      position: relative;
+      left: 50%;
+      transform: translateX(-30%);
+      z-index: 1;
+    }
+  }
+
+}

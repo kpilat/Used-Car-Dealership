@@ -1,0 +1,23 @@
+@use '../custom' as *;
+@use '../components/mixins' as *;
+
+
+#recommended-ads {
+  @include gradient;
+}
+
+.recommended-ads {
+
+  padding-top: 5rem;
+
+  &__card {
+    text-align: center;
+    position: relative;
+    max-height: 33rem;
+
+    img {
+      margin-top: 2rem;
+      width: 70%;
+    }
+  }
+}

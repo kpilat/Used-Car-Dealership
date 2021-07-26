@@ -1,0 +1,10 @@
+@use 'custom';
+
+//IMPORT COMPONENTS
+
+@use 'components/mixins';
+
+//IMPORT SECTIONS
+
+@use 'sections/navbar';
+@use 'sections/recommended_ads';
